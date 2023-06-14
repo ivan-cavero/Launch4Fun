@@ -36,7 +36,10 @@ jobs:
         run: eas build -p android --profile preview-test --non-interactive
 
       - name: 📥 Download APK
-        run: eas build:download --latest
+        run: |
+          BUILD_ID=$(eas build:list --json | jq -r '.[0].id')
+          DOWNLOAD_URL=$(eas build:view $BUILD_ID --json | jq -r '.artifacts[0].url')
+          curl -o app.apk $DOWNLOAD_URL
 
       - name: 📄 Get package.json version
         run: echo "APP_VERSION=$(node -p "require('./package.json').version")" >> $GITHUB_ENV
