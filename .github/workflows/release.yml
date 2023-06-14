@@ -1,4 +1,4 @@
-name: Create Release GitHub
+name: 🚢 Create Release GitHub
 
 on:
   push:
@@ -9,48 +9,45 @@ jobs:
   build_and_release:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout main branch
+      - name: 📦 Checkout main branch
         uses: actions/checkout@v2
         with:
           ref: main
           fetch-depth: 0
 
-      - name: Fetch develop branch
+      - name: 📦 Fetch develop branch
         run: git fetch origin develop:develop
 
-      - name: 🏗 Setup Node
+      - name: 🏗️ Setup Node.js
         uses: actions/setup-node@v2
         with:
           node-version: 18
 
-      - name: 🏗 Setup EAS
+      - name: 🏗️ Setup EAS
         uses: expo/expo-github-action@v8
         with:
           eas-version: latest
           token: ${{ secrets.EXPO_TOKEN }}
 
-      - name: Install dependencies
+      - name: 🔧 Install dependencies
         run: npm i
-
-      - name: Install eas-cli
-        run: npm install --global eas-cli
 
       - name: 🚀 Build APK
         run: eas build -p android --profile preview-test --non-interactive
 
-      - name: Download APK
+      - name: 📥 Download APK
         run: eas build:download --latest
 
-      - name: Get package.json version
+      - name: 📄 Get package.json version
         run: echo "APP_VERSION=$(node -p "require('./package.json').version")" >> $GITHUB_ENV
 
-      - name: Generate changelog
+      - name: 📝 Generate changelog
         run: |
           git fetch --prune --unshallow
           LAST_TAG=$(git describe --abbrev=0 --tags)
           git log --pretty=format:"- %s [%h](https://github.com/ivan-cavero/Go4Launch/commit/%H)" $LAST_TAG..origin/develop > changelog.txt
 
-      - name: Create Release GitHub
+      - name: 🏷️ Create Release GitHub
         uses: softprops/action-gh-release@v1
         with:
           files: '*.apk'
