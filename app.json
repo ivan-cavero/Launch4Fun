@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "go4launch",
+    "name": "Go4Launch",
     "slug": "go4launch",
     "version": "1.0.0",
     "orientation": "portrait",
@@ -21,10 +21,17 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.ivan.go4launch"
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    }
+    },
+    "extra": {
+      "eas": {
+        "projectId": "614f3ad8-4697-4d16-9eaf-487b8f77f6f4"
+      }
+    },
+    "owner": "nozus"
   }
 }
