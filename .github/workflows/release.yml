@@ -20,6 +20,10 @@ jobs:
       - name: Install dependencies
         run: npm i
 
+      - name: Install eas-cli
+        run: npm global add eas-cli
+
+
       - name: Build APK
         run: eas build -p android --profile preview-test --non-interactive
         env:
