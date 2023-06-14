@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { FlatList, RefreshControl, ActivityIndicator } from 'react-native';
-import { Overlay } from 'react-native-elements';
+import { FlatList, RefreshControl, ActivityIndicator, View , StyleSheet} from 'react-native';
 import LaunchItem from './LaunchItem';
 import { getUpcomingLaunches } from '../services/launchService';
 import ErrorView from '../utils/ErrorView';
@@ -40,7 +39,6 @@ const LaunchList = () => {
     }
   }, [offset, status, launches]);
   
-
   const onRefresh = useCallback(async () => {
     setRefreshing(true);
     setOffset(0);
@@ -56,9 +54,8 @@ const LaunchList = () => {
     return <ErrorView errorMessage={apiError} />;
   }
   
-
   return (
-    <>
+    <View style={styles.container}>
       <FlatList
         data={launches}
         renderItem={renderItem}
@@ -70,12 +67,27 @@ const LaunchList = () => {
         }
       />
       {status === 'loading' && (
-        <Overlay isVisible={true} overlayStyle={{ backgroundColor: 'transparent' }}>
+        <View style={styles.activityIndicatorContainer}>
           <ActivityIndicator size="large" color="#0074B7" />
-        </Overlay>
+        </View>
       )}
-    </>
+    </View>
   );
 };
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
+  activityIndicatorContainer: {
+    position: 'absolute',
+    justifyContent: 'center',
+    alignItems: 'center',
+    top: 0,
+    bottom: 0,
+    left: 0,
+    right: 0,
+  },
+});
 
 export default LaunchList;
