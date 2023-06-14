@@ -9,8 +9,14 @@ jobs:
   build_and_release:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
+      - name: Checkout main branch
         uses: actions/checkout@v2
+        with:
+          ref: main
+          fetch-depth: 0
+
+      - name: Fetch develop branch
+        run: git fetch origin develop:develop
 
       - name: Set up Node.js
         uses: actions/setup-node@v2
@@ -21,8 +27,7 @@ jobs:
         run: npm i
 
       - name: Install eas-cli
-        run: npm global add eas-cli
-
+        run: npm install --global eas-cli
 
       - name: Build APK
         run: eas build -p android --profile preview-test --non-interactive
@@ -37,16 +42,18 @@ jobs:
       - name: Get package.json version
         run: echo "APP_VERSION=$(node -p "require('./package.json').version")" >> $GITHUB_ENV
 
+      - name: Generate changelog
+        run: |
+          git fetch --prune --unshallow
+          LAST_TAG=$(git describe --abbrev=0 --tags)
+          git log --pretty=format:"- %s [%h](https://github.com/ivan-cavero/Go4Launch/commit/%H)" $LAST_TAG..origin/develop > changelog.txt
+
       - name: Create Release GitHub
         uses: softprops/action-gh-release@v1
         with:
           files: '*.apk'
           body_path: changelog.txt
+          tag_name: v${{ env.APP_VERSION }}
+          name: v${{ env.APP_VERSION }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Generate changelog
-        run: |
-          git fetch --prune --unshallow
-          LAST_TAG=$(git describe --abbrev=0 --tags)
-          git log --pretty=format:"- %s [%h](https://github.com/ivan-cavero/Go4Launch/commit/%H)" $LAST_TAG..HEAD > changelog.txt
