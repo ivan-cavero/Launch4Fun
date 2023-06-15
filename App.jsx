@@ -4,7 +4,7 @@ import { StatusBar } from 'expo-status-bar';
 import { useFonts } from 'expo-font'
 
 import Header from './src/components/Header';
-import LaunchList from './src/components/LaunchList';
+import LaunchList from './src/components/Launches/LaunchList';
 
 const App = () => {
   const [fontsLoaded] = useFonts({

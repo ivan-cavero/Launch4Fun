@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { FlatList, RefreshControl, ActivityIndicator, View , StyleSheet} from 'react-native';
 import LaunchItem from './LaunchItem';
-import { getUpcomingLaunches } from '../services/launchService';
-import ErrorView from '../utils/ErrorView';
+import { getUpcomingLaunches } from '../../services/launchService';
+import ErrorView from '../../utils/ErrorView';
 
 const LaunchList = () => {
   const [launches, setLaunches] = useState([]);
