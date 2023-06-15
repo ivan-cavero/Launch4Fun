@@ -55,7 +55,7 @@ jobs:
         with:
           files: '*.apk'
           body_path: changelog.txt
-          tag_name: v${{ env.APP_VERSION }}
-          name: v${{ env.APP_VERSION }}
+          tag_name: ${{ env.APP_VERSION }}
+          name: ${{ env.APP_VERSION }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
