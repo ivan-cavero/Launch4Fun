@@ -70,20 +70,31 @@ const LaunchItem = ({ launch }) => {
         return `in ${hours}h ${minutes}m`;
       } else {
         const seconds = differenceInSeconds(launchDate, new Date()) % 60;
-        return `in ${minutes}m ${seconds}s`;
+        if (minutes >= 1) {
+          return `in ${minutes}m ${seconds}s`;
+        } else {
+          return seconds <= 0 ? "Waiting confirmation..." : `in ${seconds}s`;
+        }
       }
     }
-  };  
+  };
+    
 
   const [timeRemainingState, setTimeRemaining] = useState(timeRemaining());
 
   useEffect(() => {
     const interval = setInterval(() => {
-      setTimeRemaining(timeRemaining());
+      const newTimeRemaining = timeRemaining();
+      if (newTimeRemaining !== "Waiting confirmation") {
+        setTimeRemaining(newTimeRemaining);
+      } else {
+        clearInterval(interval);
+      }
     }, 1000);
-
+  
     return () => clearInterval(interval);
   }, []);
+  
 
   const statusBackgroundColor = launch.status.name === 'Go for Launch' ? '#32CD32' : '#FFA500';
 
