@@ -15,9 +15,6 @@ jobs:
           ref: main
           fetch-depth: 0
 
-      - name: 📦 Fetch develop branch
-        run: git fetch origin develop:develop
-
       - name: 🏗️ Setup Node.js
         uses: actions/setup-node@v2
         with:
@@ -44,12 +41,18 @@ jobs:
           DOWNLOAD_URL=$(eas build:view $BUILD_ID | awk '/^Artifact/ {print $2}')
           curl -o Go4Launch-${{ env.APP_VERSION }}.apk $DOWNLOAD_URL
 
+      - name: 📦 Fetch develop branch
+        run: git fetch origin develop:develop
+
       - name: 📝 Generate changelog
         run: |
-          git fetch --prune --unshallow
-          LAST_TAG=$(git describe --abbrev=0 --tags)
-          git log --pretty=format:"- %s [%h](https://github.com/ivan-cavero/Go4Launch/commit/%H)" $LAST_TAG..origin/develop > changelog.txt
-
+          LAST_TAG=$(git describe --tags 2>/dev/null || echo "")
+          if [ -z "$LAST_TAG" ]; then
+            echo "No tags found. Generating changelog from the beginning of the branch."
+            git log --pretty=format:"- %s ~[%h](https://github.com/ivan-cavero/Go4Launch/commit/%H)~" origin/develop > changelog.txt
+          else
+            git log --pretty=format:"- %s ~[%h](https://github.com/ivan-cavero/Go4Launch/commit/%H)~" $LAST_TAG..origin/develop > changelog.txt
+          fi      
       - name: 🏷️ Create Release GitHub
         uses: softprops/action-gh-release@v1
         with:
@@ -59,3 +62,15 @@ jobs:
           name: ${{ env.APP_VERSION }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: 🏷️ Create tag for main branch
+        run: |
+          git tag -a v${{ env.APP_VERSION }} -m "Version ${{ env.APP_VERSION }}"
+          git push --tags
+        
+      - name: 🏷️ Create tag for develop branch
+        run: |
+          git checkout develop
+          git tag -a v${{ env.APP_VERSION }} -m "Version ${{ env.APP_VERSION }}"
+          git push --tags
+        
