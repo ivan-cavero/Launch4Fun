@@ -40,8 +40,8 @@ jobs:
 
       - name: 📥 Download APK
         run: |
-          BUILD_ID=$(eas build:list | awk 'NR==3 {print \$1}')
-          DOWNLOAD_URL=$(eas build:view $BUILD_ID | awk '/^Artifact/ {print \$2}')
+          BUILD_ID=$(eas build:list | awk 'NR==3 {print $1}')
+          DOWNLOAD_URL=$(eas build:view $BUILD_ID | awk '/^Artifact/ {print $2}')
           curl -o Go4Launch-${{ env.APP_VERSION }}.apk $DOWNLOAD_URL
 
       - name: 📝 Generate changelog
