@@ -16,7 +16,7 @@ jobs:
           fetch-depth: 0
 
       - name: 📦 Fetch develop branch
-        run: git fetch origin develop:develop
+        run: git fetch origin develop
 
       - name: 🏗️ Setup Node.js
         uses: actions/setup-node@v2
@@ -58,8 +58,7 @@ jobs:
           body_path: changelog.txt
           tag_name: ${{ env.APP_VERSION }}
           name: ${{ env.APP_VERSION }}
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ secrets.CUSTOM_GITHUB_TOKEN }}
 
       - name: 🏷️ Create tag for main branch
         run: |
