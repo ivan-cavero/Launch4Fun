@@ -35,8 +35,6 @@ jobs:
       - name: 📄 Get package.json version
         run: echo "APP_VERSION=$(node -p "require('./package.json').version")" >> $GITHUB_ENV
 
-
-
       - name: 📥 Download APK
         run: |
           BUILD_ID=$(eas build:list | awk 'NR==3 {print $1}')
