@@ -60,6 +60,11 @@ jobs:
           name: ${{ env.APP_VERSION }}
           token: ${{ secrets.CUSTOM_GITHUB_TOKEN }}
 
+      - name: 📄 Set Git identity
+        run: |
+          git config user.email "ivangonzalezcavero@gmail.com"
+          git config user.name "ivan-cavero"
+
       - name: 🏷️ Create tag for main branch
         run: |
           git checkout main
