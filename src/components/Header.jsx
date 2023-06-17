@@ -1,11 +1,42 @@
-// src/components/Header.js
-import React from 'react';
-import { StyleSheet, Text } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { Tooltip } from 'react-native-elements';
 import { LinearGradient } from 'expo-linear-gradient';
-import { TouchableOpacity } from 'react-native';
-import Svg, { Path } from 'react-native-svg';
+
+import MenuIcon from './Icons/MenuIcon';
+import WarningIcon from './Icons/WarningIcon';
+import UpdateIcon from './Icons/UpdateIcon';
+
+import { subscribeToConnectionChanges } from '../utils/checkInternetConnection';
+import { checkForNewVersion } from '../utils/versionChecker';
 
 const Header = () => {
+  const [isConnected, setIsConnected] = useState(true);
+  const [newVersionAvailable, setNewVersionAvailable] = useState(false);
+
+  useEffect(() => {
+    const checkConnection = async () => {
+      const unsubscribe = subscribeToConnectionChanges((connected) => {
+        setIsConnected(connected);
+      });
+
+      return () => {
+        unsubscribe();
+      };
+    };
+
+    checkConnection();
+  }, []);
+
+  useEffect(() => {
+    const checkVersion = async () => {
+      const isNewVersion = await checkForNewVersion();
+      setNewVersionAvailable(isNewVersion);
+    };
+
+    checkVersion();
+  }, []);
+
   return (
     <LinearGradient
       colors={['#60A3D9', '#0074B7']}
@@ -14,18 +45,32 @@ const Header = () => {
       style={styles.container}
     >
       <Text style={styles.title}>Go4Launch</Text>
-      <TouchableOpacity style={styles.menuIcon}>
-        <Svg width="24" height="24" viewBox="0 0 24 24">
-          <Path
-            d="M3 6h18c.6 0 1-.4 1-1s-.4-1-1-1H3c-.6 0-1 .4-1 1s.4 1 1 1zm18 5H3c-.6 0-1 .4-1 1s.4 1 1 1h18c.6 0 1-.4 1-1s-.4-1-1-1zm0 7H3c-.6 0-1 .4-1 1s.4 1 1 1h18c.6 0 1-.4 1-1s-.4-1-1-1z"
-            fill="#FFFFFF"
-          />
-        </Svg>
-      </TouchableOpacity>
+      <View style={styles.iconsContainer}>
+        {newVersionAvailable && (
+          <TouchableOpacity style={styles.updateIcon}>
+            <UpdateIcon size={24} fill={'#fcf403'} />
+          </TouchableOpacity>
+        )}
+        {!isConnected && (
+          <TouchableOpacity style={styles.warningIcon}>
+            <Tooltip
+              popover={<Text style={{ color: "#fff" }}>You are in offline mode. The data may not be up to date.</Text>}
+              backgroundColor="rgb(61, 61, 61)"
+              height={60}
+              width={200}
+              overlayColor="rgba(0, 0, 0, 0)"
+            >
+              <WarningIcon size={24} fill={'#f54242'} />
+            </Tooltip>
+          </TouchableOpacity>
+        )}
+        <TouchableOpacity style={styles.menuIcon}>
+          <MenuIcon size={24} />
+        </TouchableOpacity>
+      </View>
     </LinearGradient>
   );
 };
-
 
 const styles = StyleSheet.create({
   container: {
@@ -44,7 +89,16 @@ const styles = StyleSheet.create({
   menuIcon: {
     padding: 5,
   },
+  iconsContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  warningIcon: {
+    marginRight: 10,
+  },
+  updateIcon: {
+    marginRight: 10,
+  },
 });
-
 
 export default Header;
