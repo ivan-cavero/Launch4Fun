@@ -35,6 +35,9 @@ jobs:
       - name: 📄 Get package.json version
         run: echo "APP_VERSION=$(node -p "require('./package.json').version")" >> $GITHUB_ENV
 
+      - name: 🚀 Build APK
+        run: eas build -p android --profile preview-test --non-interactive
+
       - name: 📥 Download APK
         run: |
           BUILD_ID=$(eas build:list | awk 'NR==3 {print $1}')
@@ -59,21 +62,4 @@ jobs:
           tag_name: ${{ env.APP_VERSION }}
           name: ${{ env.APP_VERSION }}
           token: ${{ secrets.CUSTOM_GITHUB_TOKEN }}
-
-      - name: 📄 Set Git identity
-        run: |
-          git config user.email "ivangonzalezcavero@gmail.com"
-          git config user.name "ivan-cavero"
-
-      - name: 🏷️ Create tag for main branch
-        run: |
-          git checkout main
-          git tag -a v${{ env.APP_VERSION }} -m "Version ${{ env.APP_VERSION }}"
-          git push --tags
-        
-      - name: 🏷️ Create tag for develop branch
-        run: |
-          git checkout develop
-          git tag -a v${{ env.APP_VERSION }} -m "Version ${{ env.APP_VERSION }}"
-          git push --tags
         
