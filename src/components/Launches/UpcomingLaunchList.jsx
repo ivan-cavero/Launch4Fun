@@ -4,12 +4,13 @@ import LaunchItem from './LaunchItem';
 import { getUpcomingLaunches } from '../../services/launchService';
 import ErrorView from '../../utils/ErrorView';
 
-const LaunchList = () => {
+const UpcomingLaunchList = () => {
   const [launches, setLaunches] = useState([]);
   const [offset, setOffset] = useState(0);
   const [status, setStatus] = useState('idle');
   const [refreshing, setRefreshing] = useState(false);
   const [apiError, setApiError] = useState(null);
+  const [loadingMore, setLoadingMore] = useState(false);
 
   useEffect(() => {
     if (status === 'idle') {
@@ -21,8 +22,9 @@ const LaunchList = () => {
     if (status === 'loading') {
       return;
     }
-  
+
     setStatus('loading');
+    setLoadingMore(true);
     try {
       const response = await getUpcomingLaunches(offset);
       const sortedLaunches = [...launches, ...response.results].sort((a, b) => {
@@ -36,9 +38,10 @@ const LaunchList = () => {
       setApiError('Error with API: ' + error.message);
     } finally {
       setStatus('idle');
+      setLoadingMore(false);
     }
   }, [offset, status, launches]);
-  
+
   const onRefresh = useCallback(async () => {
     setRefreshing(true);
     setOffset(0);
@@ -50,10 +53,20 @@ const LaunchList = () => {
 
   const renderItem = ({ item }) => <LaunchItem launch={item} />;
 
+  const renderFooter = () => {
+    if (!loadingMore || launches.length === 0) return null;
+
+    return (
+      <View style={styles.footerLoading}>
+        <ActivityIndicator size="small" color="#0074B7" />
+      </View>
+    );
+  };
+
   if (apiError) {
     return <ErrorView errorMessage={apiError} />;
   }
-  
+
   return (
     <View style={styles.container}>
       <FlatList
@@ -65,8 +78,9 @@ const LaunchList = () => {
         refreshControl={
           <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
         }
+        ListFooterComponent={renderFooter}
       />
-      {status === 'loading' && (
+      {status === 'loading' && launches.length === 0 && (
         <View style={styles.activityIndicatorContainer}>
           <ActivityIndicator size="large" color="#0074B7" />
         </View>
@@ -88,6 +102,11 @@ const styles = StyleSheet.create({
     left: 0,
     right: 0,
   },
+  footerLoading: {
+    paddingVertical: 20,
+    borderTopWidth: 1,
+    borderColor: "#CED0CE",
+  },
 });
 
-export default LaunchList;
+export default UpcomingLaunchList;
