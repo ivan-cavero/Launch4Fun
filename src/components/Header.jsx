@@ -1,15 +1,18 @@
-// src/components/Header.js
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import { useState, useEffect } from 'react'
-import { LinearGradient } from 'expo-linear-gradient';
-import MenuIcon from './Icons/MenuIcon'
-import WarningIcon from './Icons/WarningIcon'
-import { subscribeToConnectionChanges } from '../utils/checkInternetConnection';
 import { Tooltip } from 'react-native-elements';
+import { LinearGradient } from 'expo-linear-gradient';
+
+import MenuIcon from './Icons/MenuIcon';
+import WarningIcon from './Icons/WarningIcon';
+import UpdateIcon from './Icons/UpdateIcon';
+
+import { subscribeToConnectionChanges } from '../utils/checkInternetConnection';
+import { checkForNewVersion } from '../utils/versionChecker';
 
 const Header = () => {
   const [isConnected, setIsConnected] = useState(true);
+  const [newVersionAvailable, setNewVersionAvailable] = useState(false);
 
   useEffect(() => {
     const checkConnection = async () => {
@@ -24,7 +27,16 @@ const Header = () => {
 
     checkConnection();
   }, []);
-  
+
+  useEffect(() => {
+    const checkVersion = async () => {
+      const isNewVersion = await checkForNewVersion();
+      setNewVersionAvailable(isNewVersion);
+    };
+
+    checkVersion();
+  }, []);
+
   return (
     <LinearGradient
       colors={['#60A3D9', '#0074B7']}
@@ -34,7 +46,12 @@ const Header = () => {
     >
       <Text style={styles.title}>Go4Launch</Text>
       <View style={styles.iconsContainer}>
-      {!isConnected && (
+        {!newVersionAvailable && (
+          <TouchableOpacity style={styles.updateIcon}>
+            <UpdateIcon size={24} fill={'#fcf403'} />
+          </TouchableOpacity>
+        )}
+        {!isConnected && (
           <TouchableOpacity style={styles.warningIcon}>
             <Tooltip
               popover={<Text style={{ color: "#fff" }}>You are in offline mode. The data may not be up to date.</Text>}
@@ -53,9 +70,7 @@ const Header = () => {
       </View>
     </LinearGradient>
   );
-  
 };
-
 
 const styles = StyleSheet.create({
   container: {
@@ -79,9 +94,11 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   warningIcon: {
-    marginRight: 10
-  }
+    marginRight: 10,
+  },
+  updateIcon: {
+    marginRight: 10,
+  },
 });
-
 
 export default Header;
