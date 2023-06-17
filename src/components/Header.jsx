@@ -46,7 +46,7 @@ const Header = () => {
     >
       <Text style={styles.title}>Go4Launch</Text>
       <View style={styles.iconsContainer}>
-        {!newVersionAvailable && (
+        {newVersionAvailable && (
           <TouchableOpacity style={styles.updateIcon}>
             <UpdateIcon size={24} fill={'#fcf403'} />
           </TouchableOpacity>
