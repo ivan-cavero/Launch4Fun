@@ -3,7 +3,7 @@ import React from 'react';
 import { StyleSheet, Text } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { TouchableOpacity } from 'react-native';
-import Svg, { Path } from 'react-native-svg';
+import MenuIcon from './Icons/MenuIcon'
 
 const Header = () => {
   return (
@@ -15,12 +15,9 @@ const Header = () => {
     >
       <Text style={styles.title}>Go4Launch</Text>
       <TouchableOpacity style={styles.menuIcon}>
-        <Svg width="24" height="24" viewBox="0 0 24 24">
-          <Path
-            d="M3 6h18c.6 0 1-.4 1-1s-.4-1-1-1H3c-.6 0-1 .4-1 1s.4 1 1 1zm18 5H3c-.6 0-1 .4-1 1s.4 1 1 1h18c.6 0 1-.4 1-1s-.4-1-1-1zm0 7H3c-.6 0-1 .4-1 1s.4 1 1 1h18c.6 0 1-.4 1-1s-.4-1-1-1z"
-            fill="#FFFFFF"
-          />
-        </Svg>
+        <MenuIcon
+          size={24}
+        />
       </TouchableOpacity>
     </LinearGradient>
   );
