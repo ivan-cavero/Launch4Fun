@@ -32,6 +32,12 @@
         "projectId": "614f3ad8-4697-4d16-9eaf-487b8f77f6f4"
       }
     },
-    "owner": "nozus"
+    "owner": "nozus",
+    "runtimeVersion": {
+      "policy": "sdkVersion"
+    },
+    "updates": {
+      "url": "https://u.expo.dev/614f3ad8-4697-4d16-9eaf-487b8f77f6f4"
+    }
   }
 }
