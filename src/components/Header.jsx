@@ -44,7 +44,7 @@ const Header = () => {
       end={{ x: 1, y: 0 }}
       style={styles.container}
     >
-      <Text style={styles.title}>Go4Launch</Text>
+      <Text style={styles.title}>Launch4Fun</Text>
       <View style={styles.iconsContainer}>
         {newVersionAvailable && (
           <TouchableOpacity style={styles.updateIcon}>

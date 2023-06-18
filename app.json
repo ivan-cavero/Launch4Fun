@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "Go4Launch",
-    "slug": "go4launch",
+    "name": "Launch4Fun",
+    "slug": "launch4fun",
     "version": "0.0.4",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -22,22 +22,16 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "package": "com.ivan.go4launch"
+      "package": "com.ivan.launch4fun"
     },
     "web": {
       "favicon": "./assets/favicon.png"
     },
     "extra": {
       "eas": {
-        "projectId": "614f3ad8-4697-4d16-9eaf-487b8f77f6f4"
+        "projectId": "a39126b1-e252-45f0-8171-6221eda58f23"
       }
     },
-    "owner": "nozus",
-    "runtimeVersion": {
-      "policy": "sdkVersion"
-    },
-    "updates": {
-      "url": "https://u.expo.dev/614f3ad8-4697-4d16-9eaf-487b8f77f6f4"
-    }
+    "owner": "nozus"
   }
 }
