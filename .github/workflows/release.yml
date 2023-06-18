@@ -64,17 +64,28 @@ jobs:
       - name: 📝 Generate changelog
         run: |
           git checkout develop
+          LAST_TWO_TAGS=$(git tag --sort=-creatordate | head -n 2)
+          START_TAG=$(echo "$LAST_TWO_TAGS" | tail -1)
+          END_TAG=$(echo "$LAST_TWO_TAGS" | head -1)
           fastlane run changelog_from_git_commits \
-            between_last_tag:true \
-            pretty:"- %s ~[%h](https://github.com/ivan-cavero/Go4Launch/commit/%H)~" \
-            output_file:"changelog.txt"
+            between:"$START_TAG,$END_TAG" \
+            pretty:"- %s ~[%h](https://github.com/ivan-cavero/Go4Launch/commit/%H)~" > changelog.txt || true
      
       - name: 🏷️ Create Release GitHub
+        run: |
+          if [ -f "changelog.txt" ]; then
+            BODY_PATH_ARG="body_path: changelog.txt"
+          else
+            BODY_PATH_ARG=""
+          fi
+          echo "BODY_PATH_ARG=$BODY_PATH_ARG" >> $GITHUB_ENV
+      - name: Run gh-release action
         uses: softprops/action-gh-release@v1
         with:
           files: '*.apk'
-          body_path: changelog.txt
+          body_path: ${{ env.BODY_PATH_ARG }}
           tag_name: ${{ env.APP_VERSION }}
           name: ${{ env.APP_VERSION }}
           token: ${{ secrets.CUSTOM_GITHUB_TOKEN }}
+
         
