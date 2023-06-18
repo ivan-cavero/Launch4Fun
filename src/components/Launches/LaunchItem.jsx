@@ -6,29 +6,35 @@ import { utcToZonedTime } from 'date-fns-tz';
 import RocketImage from './ItemComponents/RocketImage';
 import DetailsContainer from './ItemComponents/DetailsContainer';
 
-const LaunchItem = ({ launch }) => {
+const LaunchItem = ({ launch, past }) => {
   const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
   const launchDate = utcToZonedTime(launch.net, timeZone);
   const daysUntilLaunch = differenceInCalendarDays(launchDate, new Date());
 
   const timeRemaining = () => {
+    if (past) {
+      return formatDistanceToNow(launchDate, { addSuffix: false });
+    }
+  
+    const hours = differenceInHours(launchDate, new Date());
+    const minutes = differenceInMinutes(launchDate, new Date()) % 60;
+    const seconds = differenceInSeconds(launchDate, new Date()) % 60;
+  
     if (daysUntilLaunch > 1) {
       return formatDistanceToNow(launchDate, { addSuffix: true });
-    } else {
-      const hours = differenceInHours(launchDate, new Date());
-      const minutes = differenceInMinutes(launchDate, new Date()) % 60;
-      if (hours >= 1) {
-        return `in ${hours}h ${minutes}m`;
-      } else {
-        const seconds = differenceInSeconds(launchDate, new Date()) % 60;
-        if (minutes >= 1) {
-          return `in ${minutes}m ${seconds}s`;
-        } else {
-          return seconds <= 0 ? "Waiting confirmation..." : `in ${seconds}s`;
-        }
-      }
     }
+  
+    if (hours >= 1) {
+      return `in ${hours}h ${minutes}m`;
+    }
+  
+    if (minutes >= 1) {
+      return `in ${minutes}m ${seconds}s`;
+    }
+  
+    return seconds <= 0 ? "Waiting confirmation..." : `in ${seconds}s`;
   };
+  
 
   const [timeRemainingState, setTimeRemaining] = useState(timeRemaining());
 
