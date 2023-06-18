@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, FlatList } from 'react-native';
+import { View, FlatList, StyleSheet } from 'react-native';
 import { getPastLaunches } from '../../services/launchService';
 import LaunchItem from './LaunchItem';
 
@@ -16,7 +16,7 @@ const PastLaunchList = () => {
   };
 
   return (
-    <View>
+    <View style={styles.container}>
       <FlatList
         data={launches}
         renderItem={({ item }) => <LaunchItem launch={item} />}
@@ -25,5 +25,11 @@ const PastLaunchList = () => {
     </View>
   );
 };
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  }
+});
 
 export default PastLaunchList;
