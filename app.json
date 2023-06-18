@@ -2,7 +2,7 @@
   "expo": {
     "name": "Go4Launch",
     "slug": "go4launch",
-    "version": "0.0.3",
+    "version": "0.0.4",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
