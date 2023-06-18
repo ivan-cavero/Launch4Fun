@@ -1,16 +1,16 @@
-# Go4Launch
+# Launch4Fun
 
-![Go4Launch Logo](./assets/icon.png)
+![Launch4Fun Logo](./assets/icon.png)
 
-Go4Launch is a mobile application developed with React Native that allows you to view upcoming rocket launches. It features a modern and stylish user interface.
+Launch4Fun is a mobile application developed with React Native that allows you to view upcoming rocket launches. It features a modern and stylish user interface.
 
 ## Installation
 
 Follow these steps to install and run the application on your local environment:
 
 1. Make sure you have Node.js and npm installed on your system.
-2. Clone this repository: `git clone https://github.com/ivan-cavero/Go4Launch.git`
-3. Navigate to the project directory: `cd Go4Launch`
+2. Clone this repository: `git clone https://github.com/ivan-cavero/Launch4Fun.git`
+3. Navigate to the project directory: `cd Launch4Fun`
 4. Install the dependencies: `npm install`
 5. Run the application: `npm start`
 

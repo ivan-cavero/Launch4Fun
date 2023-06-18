@@ -3,7 +3,7 @@ import appConfig from '../../app.json';
 
 export const checkForNewVersion = async () => {
   try {
-    const response = await axios.get('https://api.github.com/repos/ivan-cavero/Go4Launch/releases/latest');
+    const response = await axios.get('https://api.github.com/repos/ivan-cavero/Launch4Fun/releases/latest');
     const data = response.data;
 
     const latestVersion = data.tag_name;
