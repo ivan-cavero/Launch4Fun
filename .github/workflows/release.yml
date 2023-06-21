@@ -32,9 +32,6 @@ jobs:
       - name: 🔧 Install dependencies
         run: npm i
 
-      - name: 📄 Get package.json version
-        run: echo "APP_VERSION=$(node -p "require('./package.json').version")" >> $GITHUB_ENV
-
       - name: 🚀 Build APK
         run: eas build -p android --profile preview-test --non-interactive
 
@@ -43,49 +40,3 @@ jobs:
           BUILD_ID=$(eas build:list | awk 'NR==3 {print $1}')
           DOWNLOAD_URL=$(eas build:view $BUILD_ID | awk '/^Artifact/ {print $2}')
           echo "DOWNLOAD_URL=$DOWNLOAD_URL" >> $GITHUB_ENV
-   
-      - name: 📥 Download APK
-        run: curl -L -o Launch4Fun-${{ env.APP_VERSION }}.apk $DOWNLOAD_URL  
-        
-      - name: ✅ Verify APK size
-        run: |
-          FILE_SIZE_BYTES=$(stat -c %s Launch4Fun-${{ env.APP_VERSION }}.apk)
-          FILE_SIZE_MB=$(echo "$FILE_SIZE_BYTES / 1048576" | bc -l)
-          MINIMUM_SIZE_MB=15
-          if [ "$(echo "$FILE_SIZE_MB < $MINIMUM_SIZE_MB" | bc -l)" -eq 1 ]; then
-            echo "❌ APK size is too small ($FILE_SIZE_MB MB)."
-          else
-            echo "✅ APK size is valid ($FILE_SIZE_MB MB)."
-          fi
-
-      - name: 🛠️ Install Fastlane
-        run: sudo gem install fastlane     
-
-      - name: 📝 Generate changelog
-        run: |
-          git checkout develop
-          LAST_TWO_TAGS=$(git tag --sort=-creatordate | head -n 2)
-          START_TAG=$(echo "$LAST_TWO_TAGS" | tail -1)
-          END_TAG=$(echo "$LAST_TWO_TAGS" | head -1)
-          fastlane run changelog_from_git_commits \
-            between:"$START_TAG,$END_TAG" \
-            pretty:"- %s ~[%h](https://github.com/ivan-cavero/Launch4Fun/commit/%H)~" > changelog.txt || true
-     
-      - name: 🏷️ Create Release GitHub
-        run: |
-          if [ -f "changelog.txt" ]; then
-            BODY_PATH_ARG="body_path: changelog.txt"
-          else
-            BODY_PATH_ARG=""
-          fi
-          echo "BODY_PATH_ARG=$BODY_PATH_ARG" >> $GITHUB_ENV
-      - name: Run gh-release action
-        uses: softprops/action-gh-release@v1
-        with:
-          files: '*.apk'
-          body_path: ${{ env.BODY_PATH_ARG }}
-          tag_name: ${{ env.APP_VERSION }}
-          name: ${{ env.APP_VERSION }}
-          token: ${{ secrets.CUSTOM_GITHUB_TOKEN }}
-
-        
