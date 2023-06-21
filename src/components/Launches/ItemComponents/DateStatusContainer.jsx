@@ -1,25 +1,73 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { format } from 'date-fns';
-import { Tooltip } from 'react-native-elements';
+import CustomTooltip from '../../Reusable/CustomTooltip';
 
-const DateStatusContainer = ({ launchDate, status, statusBackgroundColor }) => {
-  const tooltipText = status === 'Go for Launch' ? 'Launch is confirmed and scheduled.' : 'Launch is to be confirmed.';
+const getStatusBackgroundColor = (statusName) => {
+  switch (statusName) {
+    case 'Go for Launch':
+      return '#32CD32';
+    case 'Launch Successful':
+      return '#0074B7';
+    case 'Launch Failure':
+      return '#FFA500';
+    case 'To Be Determined':
+      return '#808080';
+    case 'To Be Confirmed':
+      return '#FFD700';
+    default:
+      return '#808080';
+  }
+};
+
+const getStatusText = (statusName) => {
+  switch (statusName) {
+    case 'Go for Launch':
+      return 'GO';
+    case 'Launch Successful':
+      return 'LS';
+    case 'Launch Failure':
+      return 'LF';
+    case 'To Be Determined':
+      return 'TBD';
+    case 'To Be Confirmed':
+      return 'TBC';
+    default:
+      return statusName;
+  }
+};
+
+const DateStatusContainer = ({ launchDate, status, statusDescription }) => {
+  const [tooltipSize, setTooltipSize] = useState({ width: 200, height: 60 });
+  const statusBackgroundColor = getStatusBackgroundColor(status);
+  const statusText = getStatusText(status);
+
+  const tooltipContent = (
+    <Text
+      style={{ color: "#fff" }}
+      onLayout={(e) =>
+        setTooltipSize({
+          width: e.nativeEvent.layout.width + 30,
+          height: e.nativeEvent.layout.height + 30,
+        })
+      }
+    >
+      {statusDescription ?? "N/A"}
+    </Text>
+  );
 
   return (
     <View style={styles.dateStatusContainer}>
       <Text style={styles.date}>{format(launchDate, 'MMM dd, yyyy, HH:mm')}</Text>
-      <Tooltip
-        popover={<Text style={{ color: "#fff" }}>{tooltipText}</Text>}
+      <CustomTooltip
         backgroundColor="rgb(61, 61, 61)"
-        height={60}
-        width={200}
-        overlayColor="rgba(0, 0, 0, 0)"
+        textColor="#fff"
+        tooltipText={statusDescription}
       >
         <View style={[styles.statusContainer, { backgroundColor: statusBackgroundColor }]}>
-          <Text style={styles.status}>{status === 'Go for Launch' ? 'GO' : 'TBC'}</Text>
+          <Text style={styles.status}>{statusText}</Text>
         </View>
-      </Tooltip>
+      </CustomTooltip>
     </View>
   );
 };

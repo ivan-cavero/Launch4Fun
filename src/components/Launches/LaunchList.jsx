@@ -1,7 +1,8 @@
-import React, { useState, useEffect, useCallback, useReducer } from 'react';
-import { FlatList, RefreshControl, ActivityIndicator, View, StyleSheet } from 'react-native';
+import React, { useState, useEffect, useCallback } from 'react';
+import { FlatList, RefreshControl, ActivityIndicator, View, StyleSheet, Platform } from 'react-native';
 import LaunchItem from './LaunchItem';
 import ErrorView from '../../utils/ErrorView';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const LaunchList = ({ loadData, sortOrder = 'asc' }) => {
   const [launches, setLaunches] = useState([]);
@@ -16,6 +17,25 @@ const LaunchList = ({ loadData, sortOrder = 'asc' }) => {
       loadMoreLaunches();
     }
   }, []);
+
+  const storeLaunches = async (launches) => {
+    try {
+      await AsyncStorage.setItem('@launches', JSON.stringify(launches));
+    } catch (error) {
+      console.error('Error saving launches:', error);
+    }
+  };  
+
+  const getStoredLaunches = async () => {
+    try {
+      const storedLaunches = await AsyncStorage.getItem('@launches');
+      if (storedLaunches !== null) {
+        setLaunches(JSON.parse(storedLaunches));
+      }
+    } catch (error) {
+      console.error('Error getting launches:', error);
+    }
+  };  
 
   const loadMoreLaunches = useCallback(async () => {
     if (status === 'loading') {
@@ -32,11 +52,12 @@ const LaunchList = ({ loadData, sortOrder = 'asc' }) => {
           : new Date(b.net) - new Date(a.net);
       });
       setLaunches(sortedLaunches);
+      storeLaunches(sortedLaunches)
       setOffset((prevOffset) => prevOffset + 10);
       setApiError(null);
     } catch (error) {
       console.error('Error fetching launches:', error);
-      setApiError('Error with API: ' + error.message);
+      getStoredLaunches();
     } finally {
       setStatus('idle');
       setLoadingMore(false);
@@ -75,9 +96,9 @@ const LaunchList = ({ loadData, sortOrder = 'asc' }) => {
       <FlatList
         data={launches}
         renderItem={renderItem}
-        keyExtractor={(item) => item.id.toString()}
+        keyExtractor={(item, index) => `${item.id}-${index}`}
         onEndReached={loadMoreLaunches}
-        onEndReachedThreshold={0.9}
+        onEndReachedThreshold={Platform.OS === 'web' ? 1 : 0.9}
         refreshControl={
           <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
         }

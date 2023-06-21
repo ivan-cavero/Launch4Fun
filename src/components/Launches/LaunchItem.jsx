@@ -6,7 +6,7 @@ import { utcToZonedTime } from 'date-fns-tz';
 import RocketImage from './ItemComponents/RocketImage';
 import DetailsContainer from './ItemComponents/DetailsContainer';
 
-const LaunchItem = ({ launch, past }) => {
+const LaunchItem = React.memo(({ launch, past }) => {
   const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
   const launchDate = utcToZonedTime(launch.net, timeZone);
   const daysUntilLaunch = differenceInCalendarDays(launchDate, new Date());
@@ -51,8 +51,6 @@ const LaunchItem = ({ launch, past }) => {
     return () => clearInterval(interval);
   }, []);
 
-  const statusBackgroundColor = launch.status.name === 'Go for Launch' ? '#32CD32' : '#FFA500';
-
   return (
     <View style={styles.cardContainer}>
       <View style={styles.card}>
@@ -62,13 +60,13 @@ const LaunchItem = ({ launch, past }) => {
           location={launch.pad.location.name}
           launchDate={launchDate}
           status={launch.status.name}
-          statusBackgroundColor={statusBackgroundColor}
+          statusDescription={launch.status.description}
           timeRemaining={timeRemainingState}
         />
       </View>
     </View>
   );
-};
+});
 
 const styles = StyleSheet.create({
   cardContainer: {
