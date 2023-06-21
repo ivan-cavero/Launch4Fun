@@ -2,8 +2,9 @@ import React, { useState } from 'react';
 import { StyleSheet, View, Text, TouchableOpacity, Platform  } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 import { useFonts } from 'expo-font';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
 
-import Header from './src/components/Header';
+import Header from './src/components/Header/Header';
 import UpcomingLaunchList from './src/components/Launches/UpcomingLaunchList';
 import PastLaunchList from './src/components/Launches/PastLaunchList';
 import RocketIcon from './src/components/Icons/RocketIcon';
@@ -34,19 +35,21 @@ const App = () => {
   }
 
   return (
-    <View style={styles.container}>
-      <Header />
-      {selectedIndex === 0 ? <UpcomingLaunchList /> : <PastLaunchList />}
-      <View style={styles.footer}>
-        <TouchableOpacity onPress={() => updateIndex(0)}>
-          {renderButton('Upcoming', RocketIcon, selectedIndex === 0)}
-        </TouchableOpacity>
-        <TouchableOpacity onPress={() => updateIndex(1)}>
-          {renderButton('Past', HistoryIcon, selectedIndex === 1)}
-        </TouchableOpacity>
+    <SafeAreaProvider>
+      <View style={styles.container}>
+        <Header />
+        {selectedIndex === 0 ? <UpcomingLaunchList /> : <PastLaunchList />}
+        <View style={styles.footer}>
+          <TouchableOpacity onPress={() => updateIndex(0)}>
+            {renderButton('Upcoming', RocketIcon, selectedIndex === 0)}
+          </TouchableOpacity>
+          <TouchableOpacity onPress={() => updateIndex(1)}>
+            {renderButton('Past', HistoryIcon, selectedIndex === 1)}
+          </TouchableOpacity>
+        </View>
+        <StatusBar style="auto" />
       </View>
-      <StatusBar style="auto" />
-    </View>
+    </SafeAreaProvider>
   );
 };
 
