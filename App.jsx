@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { StyleSheet, View, Text, TouchableOpacity } from 'react-native';
+import { StyleSheet, View, Text, TouchableOpacity, Platform  } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 import { useFonts } from 'expo-font';
 
@@ -54,6 +54,13 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
+    ...Platform.select({
+      web: {
+        maxWidth: 800,
+        marginLeft: 'auto',
+        marginRight: 'auto',
+      },
+    }),
   },
   footer: {
     flexDirection: 'row',
