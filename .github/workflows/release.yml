@@ -33,7 +33,7 @@ jobs:
         run: npm i
 
       - name: 🚀 Build APK
-        run: eas build -p android --profile preview-test --non-interactive
+        run: eas build -p android --profile preview --non-interactive
 
       - name: 📥 Get APK download URL
         run: |
