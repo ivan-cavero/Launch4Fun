@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import { Tooltip } from 'react-native-elements';
+import CustomTooltip from '../Reusable/CustomTooltip';
 import { LinearGradient } from 'expo-linear-gradient';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
@@ -11,12 +11,12 @@ import UpdateIcon from '../Icons/UpdateIcon';
 import { subscribeToConnectionChanges } from '../../utils/checkInternetConnection';
 import { checkForNewVersion } from '../../utils/versionChecker';
 
-const Header = () => {
+const Header = ({ navigation }) => {
   const [isConnected, setIsConnected] = useState(true);
   const [newVersionAvailable, setNewVersionAvailable] = useState(false);
 
   const handleMenuIconClick = () => {
-    setIsMenuOpen(true);
+    navigation.openDrawer();
   };
 
   useEffect(() => {
@@ -50,29 +50,29 @@ const Header = () => {
         end={{ x: 1, y: 0 }}
         style={styles.container}
       >
+        <TouchableOpacity style={styles.menuIcon} onPress={handleMenuIconClick}>
+          <MenuIcon size={24} />
+        </TouchableOpacity>
         <Text style={styles.title}>Launch4Fun</Text>
         <View style={styles.iconsContainer}>
-          {newVersionAvailable && (
-            <TouchableOpacity style={styles.updateIcon}>
-              <UpdateIcon size={24} fill={'#fcf403'} />
-            </TouchableOpacity>
-          )}
-          {!isConnected && (
-            <TouchableOpacity style={styles.warningIcon}>
-              <Tooltip
-                popover={<Text style={{ color: "#fff" }}>You are in offline mode. The data may not be up to date.</Text>}
-                backgroundColor="rgb(61, 61, 61)"
-                height={60}
-                width={200}
-                overlayColor="rgba(0, 0, 0, 0)"
-              >
-                <WarningIcon size={24} fill={'#f54242'} />
-              </Tooltip>
-            </TouchableOpacity>
-          )}
-          <TouchableOpacity style={styles.menuIcon} onPress={handleMenuIconClick}>
-            <MenuIcon size={24} />
-          </TouchableOpacity>
+          <View style={styles.iconsRightContainer}>
+            {newVersionAvailable && (
+              <TouchableOpacity style={styles.updateIcon}>
+                <UpdateIcon size={24} fill={'#fcf403'} />
+              </TouchableOpacity>
+            )}
+            {!isConnected && (
+              <TouchableOpacity style={styles.warningIcon}>
+                <CustomTooltip 
+                  tooltipText="You are in offline mode. The data may not be up to date."
+                  textColor="#fff"
+                  backgroundColor="rgb(61, 61, 61)"
+                >
+                  <WarningIcon size={24} fill={'#f54242'} />
+                </CustomTooltip>
+              </TouchableOpacity>
+            )}
+          </View>
         </View>
       </LinearGradient>
     </SafeAreaView>
@@ -83,21 +83,26 @@ const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'space-between',
     padding: 10,
   },
   title: {
+    flex: 1,
     fontSize: 24,
     fontWeight: 'bold',
     fontFamily: 'Roboto-Regular',
     color: '#FFFFFF',
   },
   menuIcon: {
-    padding: 5,
+    marginRight: 20,
+    marginLeft: 5,
   },
   iconsContainer: {
+    flex: 1,
+    alignItems: 'flex-end'
+  },
+  iconsRightContainer: {
     flexDirection: 'row',
-    alignItems: 'center',
+    alignItems: 'center'
   },
   warningIcon: {
     marginRight: 10,
