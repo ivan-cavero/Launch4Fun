@@ -4,12 +4,13 @@ import { SafeAreaProvider } from "react-native-safe-area-context";
 import { NavigationContainer, DefaultTheme, DarkTheme } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createDrawerNavigator, DrawerContentScrollView, DrawerItemList } from '@react-navigation/drawer';
-import { View, Text, useColorScheme } from "react-native";
+import { View, Text, useColorScheme, TouchableOpacity } from "react-native";
 import { MenuProvider } from 'react-native-popup-menu';
 
 import { setTheme } from './src/store/configuration';
 import { Provider, useDispatch, useSelector } from 'react-redux';
 import store, { persistor } from './src/store';
+import * as Linking from 'expo-linking';
 import { PersistGate } from 'redux-persist/integration/react'
 
 import UpcomingLaunchList from "./src/components/Launches/UpcomingLaunchList";
@@ -101,7 +102,9 @@ const App = () => {
   const FooterDrawer = () => (
     <React.Fragment>
       <View style={{ borderTopWidth: 1, borderTopColor: 'gray', paddingVertical: 10, paddingHorizontal: 20, flexDirection: 'row', alignItems: 'center' }}>
-        <Text style={{ flex: 1, marginRight: 5 }}>Developed by Ivan Cavero</Text>
+        <TouchableOpacity onPress={() => Linking.openURL('https://www.buymeacoffee.com/ivancavero')}>
+          <Text style={{ flex: 1, marginRight: 5 }}>Developed by Ivan Cavero</Text>
+        </TouchableOpacity>
         <Text style={{ fontSize: 10 }}>❤️</Text>
       </View>
     </React.Fragment>
