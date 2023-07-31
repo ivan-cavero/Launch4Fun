@@ -5,10 +5,12 @@ import { NavigationContainer, DefaultTheme, DarkTheme } from "@react-navigation/
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createDrawerNavigator, DrawerContentScrollView, DrawerItemList } from '@react-navigation/drawer';
 import { View, Text, useColorScheme } from "react-native";
+import { MenuProvider } from 'react-native-popup-menu';
 
-import { configureStore } from '@reduxjs/toolkit';
-import configurationReducer, { setTheme} from './src/store/configuration';
-import { Provider, useDispatch } from 'react-redux';
+import { setTheme } from './src/store/configuration';
+import { Provider, useDispatch, useSelector } from 'react-redux';
+import store, { persistor } from './src/store';
+import { PersistGate } from 'redux-persist/integration/react'
 
 import UpcomingLaunchList from "./src/components/Launches/UpcomingLaunchList";
 import RocketIcon from "./src/components/Icons/RocketIcon";
@@ -16,20 +18,18 @@ import PastLaunchList from "./src/components/Launches/PastLaunchList";
 import HistoryIcon from "./src/components/Icons/HistoryIcon";
 import Header from "./src/components/Header/Header";
 import ConfigurationView from "./src/components/Configuration/ConfigurationView";
+import FavoritesView from "./src/components/Favorites/FavoritesView";
 
 const Tab = createBottomTabNavigator();
 const Drawer = createDrawerNavigator();
 
-const store = configureStore({
-  reducer: {
-    configuration: configurationReducer,
-  },
-});
-
 const App = () => {
-  const scheme = useColorScheme();
+  const checkTheme = useSelector((state) => state.configuration?.theme);
+  const scheme = checkTheme ?? useColorScheme();
   const dispatch = useDispatch();
-  dispatch(setTheme(scheme));
+  if (!checkTheme) {
+    dispatch(setTheme(scheme));
+  }
 
   const [fontsLoaded] = useFonts({
     "Roboto-Regular": require("./assets/fonts/Roboto-Regular.ttf"),
@@ -73,7 +73,14 @@ const App = () => {
       <Header navigation={navigation} />
       <ConfigurationView />
     </React.Fragment>
-  );  
+  );
+
+  const FavoritesScreen = ({ navigation }) => (
+    <React.Fragment>
+      <Header navigation={navigation} />
+      <FavoritesView />
+    </React.Fragment>
+  );
 
   const CustomDrawerContent = (props) => (
     <DrawerContentScrollView {...props} contentContainerStyle={{ flex: 1 }}>
@@ -109,6 +116,7 @@ const App = () => {
         >
           <Drawer.Screen name="Home" component={HomeScreen} />
           <Drawer.Screen name="Configuration" component={ConfigurationScreen} />
+          <Drawer.Screen name="Favorites" component={FavoritesScreen} />
         </Drawer.Navigator>
       </NavigationContainer>
     </SafeAreaProvider>
@@ -117,6 +125,10 @@ const App = () => {
 
 export default () => (
   <Provider store={store}>
-    <App />
+    <PersistGate loading={null} persistor={persistor}>
+      <MenuProvider>
+        <App />
+      </MenuProvider>
+    </PersistGate>
   </Provider>
 );
