@@ -1,7 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { View, StyleSheet } from 'react-native';
-import { differenceInCalendarDays, differenceInHours, differenceInMinutes, differenceInSeconds, format, formatDistanceToNow } from 'date-fns';
+import { View, StyleSheet, TouchableOpacity, Text, Share } from 'react-native';
+import { differenceInCalendarDays, differenceInHours, differenceInMinutes, differenceInSeconds, formatDistanceToNow } from 'date-fns';
 import { utcToZonedTime } from 'date-fns-tz';
+import { Menu, MenuOptions, MenuOption, MenuTrigger } from 'react-native-popup-menu';
+import { useDispatch, useSelector } from 'react-redux';
+import { addToFavorites, removeFromFavorites } from '../../store/favorites';
 
 import RocketImage from './ItemComponents/RocketImage';
 import DetailsContainer from './ItemComponents/DetailsContainer';
@@ -37,6 +40,7 @@ const LaunchItem = React.memo(({ launch, past }) => {
   
 
   const [timeRemainingState, setTimeRemaining] = useState(timeRemaining());
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -51,10 +55,44 @@ const LaunchItem = React.memo(({ launch, past }) => {
     return () => clearInterval(interval);
   }, []);
 
+  const favorites = useSelector((state) => state.favorites.items);
+  const isFavorite = favorites.some(item => item.id === launch.id);
+  const [isInFavorites, setIsInFavorites] = useState(isFavorite);
+
+  const dispatch = useDispatch();
+  const handleAddOrRemoveFavorites = () => {
+    if (isInFavorites) {
+      const action = removeFromFavorites(launch);
+      dispatch(action);
+    } else {
+      const action = addToFavorites(launch);
+      dispatch(action);
+    }
+    setIsInFavorites(!isInFavorites);
+  };
+
+  const DOMAIN = 'https://launch4fun.com/';
+  const shareUrl = async () => {
+    const url = `${DOMAIN}${launch.name.replace(/ /g, '-')}`;
+    const shareOptions = {
+      title: 'Launch4Fun',
+      message: `Check out this launch: ${launch.name} -> ${url}`,
+      url
+    };
+    try {
+      await Share.share(shareOptions);
+    } catch (error) {
+      alert(`Error: ${error.message}`);
+    }
+  };
+
   return (
     <View style={styles.cardContainer}>
-      <View style={styles.card}>
-        <RocketImage uri={launch.image} />
+      <TouchableOpacity
+        onLongPress={() => setIsMenuOpen(true)}
+        style={styles.card}
+      >
+      <RocketImage uri={launch.image} isFavorite={isInFavorites} />
         <DetailsContainer
           name={launch.name}
           location={launch.pad.location.name}
@@ -63,7 +101,14 @@ const LaunchItem = React.memo(({ launch, past }) => {
           statusDescription={launch.status.description}
           timeRemaining={timeRemainingState}
         />
-      </View>
+        <Menu opened={isMenuOpen} onBackdropPress={() => setIsMenuOpen(false)}>
+        <MenuTrigger />
+        <MenuOptions>
+          <MenuOption onSelect={handleAddOrRemoveFavorites}><Text>{isInFavorites ? 'Remove from favorites' : 'Add to favorites'}</Text></MenuOption>
+          <MenuOption onSelect={shareUrl}><Text>Share</Text></MenuOption>
+        </MenuOptions>
+      </Menu>
+      </TouchableOpacity>
     </View>
   );
 });
