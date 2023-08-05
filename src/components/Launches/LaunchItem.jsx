@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { View, StyleSheet, TouchableOpacity, Text, Share } from 'react-native';
+import { View, StyleSheet, TouchableHighlight, Text, Share } from 'react-native';
 import { differenceInCalendarDays, differenceInHours, differenceInMinutes, differenceInSeconds, formatDistanceToNow } from 'date-fns';
 import { utcToZonedTime } from 'date-fns-tz';
 import { Menu, MenuOptions, MenuOption, MenuTrigger } from 'react-native-popup-menu';
 import { useDispatch, useSelector } from 'react-redux';
 import { addToFavorites, removeFromFavorites } from '../../store/favorites';
+import { useColorScheme } from 'react-native';
 
 import RocketImage from './ItemComponents/RocketImage';
 import DetailsContainer from './ItemComponents/DetailsContainer';
@@ -41,6 +42,9 @@ const LaunchItem = React.memo(({ launch, past }) => {
 
   const [timeRemainingState, setTimeRemaining] = useState(timeRemaining());
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+  const checkTheme = useSelector((state) => state.configuration?.theme);
+  const scheme = checkTheme ?? useColorScheme();
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -86,51 +90,58 @@ const LaunchItem = React.memo(({ launch, past }) => {
     }
   };
 
+  const styles = StyleSheet.create({
+    cardContainer: {
+      paddingHorizontal: 13,
+      marginTop: 15,
+    },
+    card: {
+      flexDirection: 'row-reverse',
+      backgroundColor: scheme === 'dark' ? '#333' : 'white',
+      borderRadius: 10,
+      overflow: 'hidden',
+      width: '100%',
+      height: 134,
+      shadowColor: '#000',
+      shadowOffset: { width: 0, height: 1 },
+      shadowOpacity: 0.1,
+      shadowRadius: 2,
+      elevation: 3,
+    },
+    touchable: {
+      flex: 1,
+      borderRadius: 10,
+    },
+  });
+
   return (
     <View style={styles.cardContainer}>
-      <TouchableOpacity
+      <TouchableHighlight
         onLongPress={() => setIsMenuOpen(true)}
-        style={styles.card}
+        underlayColor={scheme === 'dark' ? '#444' : '#f2f2f2'} 
+        style={styles.touchable}
       >
-      <RocketImage uri={launch.image} isFavorite={isInFavorites} />
-        <DetailsContainer
-          name={launch.name}
-          location={launch.pad.location.name}
-          launchDate={launchDate}
-          status={launch.status.name}
-          statusDescription={launch.status.description}
-          timeRemaining={timeRemainingState}
-        />
-        <Menu opened={isMenuOpen} onBackdropPress={() => setIsMenuOpen(false)}>
-        <MenuTrigger />
-        <MenuOptions>
-          <MenuOption onSelect={handleAddOrRemoveFavorites}><Text>{isInFavorites ? 'Remove from favorites' : 'Add to favorites'}</Text></MenuOption>
-          <MenuOption onSelect={shareUrl}><Text>Share</Text></MenuOption>
-        </MenuOptions>
-      </Menu>
-      </TouchableOpacity>
+        <View style={styles.card}>
+          <RocketImage uri={launch.image} isFavorite={isInFavorites} />
+          <DetailsContainer
+            name={launch.name}
+            location={launch.pad.location.name}
+            launchDate={launchDate}
+            status={launch.status.name}
+            statusDescription={launch.status.description}
+            timeRemaining={timeRemainingState}
+          />
+          <Menu opened={isMenuOpen} onBackdropPress={() => setIsMenuOpen(false)}>
+            <MenuTrigger />
+            <MenuOptions>
+              <MenuOption onSelect={handleAddOrRemoveFavorites}><Text>{isInFavorites ? 'Remove from favorites' : 'Add to favorites'}</Text></MenuOption>
+              <MenuOption onSelect={shareUrl}><Text>Share</Text></MenuOption>
+            </MenuOptions>
+          </Menu>
+        </View>
+      </TouchableHighlight>
     </View>
   );
-});
-
-const styles = StyleSheet.create({
-  cardContainer: {
-    paddingHorizontal: 13,
-    marginTop: 15,
-  },
-  card: {
-    flexDirection: 'row-reverse',
-    backgroundColor: 'white',
-    borderRadius: 10,
-    overflow: 'hidden',
-    width: '100%',
-    height: 134,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 1 },
-    shadowOpacity: 0.1,
-    shadowRadius: 2,
-    elevation: 3,
-  },
 });
 
 export default LaunchItem;
