@@ -4,7 +4,7 @@ import { SafeAreaProvider } from "react-native-safe-area-context";
 import { NavigationContainer, DefaultTheme, DarkTheme } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createDrawerNavigator, DrawerContentScrollView, DrawerItemList } from '@react-navigation/drawer';
-import { View, Text, useColorScheme, TouchableOpacity } from "react-native";
+import { View, Text, useColorScheme, TouchableOpacity, StatusBar } from "react-native";
 import { MenuProvider } from 'react-native-popup-menu';
 
 import { setTheme } from './src/store/configuration';
@@ -12,6 +12,7 @@ import { Provider, useDispatch, useSelector } from 'react-redux';
 import store, { persistor } from './src/store';
 import * as Linking from 'expo-linking';
 import { PersistGate } from 'redux-persist/integration/react'
+import FlashMessage from 'react-native-flash-message';
 
 import UpcomingLaunchList from "./src/components/Launches/UpcomingLaunchList";
 import RocketIcon from "./src/components/Icons/RocketIcon";
@@ -44,7 +45,7 @@ const App = () => {
     tabBarActiveTintColor: '#0074B7',
     tabBarInactiveTintColor: 'gray',
     tabBarStyle: {
-      backgroundColor: '#fff',
+      backgroundColor: scheme === 'dark' ? '#161616' : '#fff',
       paddingBottom: 2,
     },
     tabBarItemStyle: {
@@ -94,7 +95,7 @@ const App = () => {
 
   const HeaderDrawer = () => (
     <React.Fragment>
-      <Text style={{ marginLeft: 20, fontSize: 20, fontWeight: 'bold', marginVertical: 20 }}>Launch4Fun</Text>
+      <Text style={{ marginLeft: 20, fontSize: 20, fontWeight: 'bold', marginVertical: 20, color: scheme === 'dark' ? '#fff' : '#000' }}>Launch4Fun</Text>
       <View style={{ borderBottomWidth: 1, borderBottomColor: 'gray', marginBottom: 20 }}></View>
     </React.Fragment>
   );
@@ -103,16 +104,27 @@ const App = () => {
     <React.Fragment>
       <View style={{ borderTopWidth: 1, borderTopColor: 'gray', paddingVertical: 10, paddingHorizontal: 20, flexDirection: 'row', alignItems: 'center' }}>
         <TouchableOpacity onPress={() => Linking.openURL('https://www.buymeacoffee.com/ivancavero')}>
-          <Text style={{ flex: 1, marginRight: 5 }}>Developed by Ivan Cavero</Text>
+          <Text style={{ flex: 1, marginRight: 5, color: scheme === 'dark' ? '#fff' : '#000' }}>Developed by Ivan Cavero</Text>
         </TouchableOpacity>
         <Text style={{ fontSize: 10 }}>❤️</Text>
       </View>
     </React.Fragment>
   );
 
+  const customNavigation = {
+    ...DarkTheme,
+    colors: {
+      ...DarkTheme.colors,
+      background: '#070707'
+    }
+  }
+
+  const statusBarStyle = scheme === 'dark' ? 'light-content' : 'dark-content';
+
   return (
     <SafeAreaProvider>
-      <NavigationContainer theme={scheme === 'dark' ? DarkTheme : DefaultTheme}>
+      <StatusBar barStyle={statusBarStyle} backgroundColor={scheme === 'dark' ? '#202020' : '#ffffff'} />
+      <NavigationContainer theme={scheme === 'dark' ? customNavigation : DefaultTheme}>
         <Drawer.Navigator
           drawerContent={(props) => <CustomDrawerContent {...props} />}
           screenOptions={{ headerShown: false }}
@@ -131,6 +143,7 @@ export default () => (
     <PersistGate loading={null} persistor={persistor}>
       <MenuProvider>
         <App />
+        <FlashMessage position="top" floating={true} style={{marginTop: 40}} />
       </MenuProvider>
     </PersistGate>
   </Provider>
