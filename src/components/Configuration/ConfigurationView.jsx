@@ -200,7 +200,7 @@ const ConfigurationPage = () => {
 					<MaterialCommunityIcons name="help-circle-outline" size={24} color={styles.value.color} style={styles.icon} />
 					<View style={styles.column}>
 						<Text style={styles.value}>Launch4Fun</Text>
-						<Text style={styles.description}>Android: 0.0.6</Text>
+						<Text style={styles.description}>Android: 0.1.0</Text>
 					</View>
 				</View>
 				<View style={styles.row}>
