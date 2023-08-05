@@ -1,5 +1,6 @@
 import React from 'react';
-import { Image, StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
+import { Image } from 'expo-image';
 
 const RocketImage = ({ uri, isFavorite }) => {
   return (
@@ -7,7 +8,8 @@ const RocketImage = ({ uri, isFavorite }) => {
       <Image
         style={styles.rocketImage}
         source={{ uri }}
-        resizeMode="cover"
+        contentFit="cover"
+        transition={1000}
       />
       {isFavorite && <Text style={styles.favorite}>★</Text>}
     </View>
