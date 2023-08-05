@@ -25,7 +25,7 @@ const CustomTooltip = ({
       targetRef.current.measure((fx, fy, targetWidth, height, px, py) => {
         const screenWidth = Dimensions.get('window').width;
         const tooltipX = Math.max(0, Math.min(px + (targetWidth / 2.5) - (tooltipWidth / 2.5), screenWidth - tooltipWidth));
-        const tooltipY = py + height + 10;
+        const tooltipY = py + height + 55;
         setTooltipPosition({ x: tooltipX, y: tooltipY });
       });
     }
@@ -44,7 +44,7 @@ const CustomTooltip = ({
         onRequestClose={closeModal}
         statusBarTranslucent
       >
-        <TouchableOpacity style={styles.modalContainer} onPress={closeModal}>
+        <TouchableOpacity style={styles.modalContainer} onPress={closeModal}  activeOpacity={1}>
           <View
             style={[
               styles.tooltipContainer,
