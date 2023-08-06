@@ -1,7 +1,6 @@
 import axios from 'axios';
 
 const isDevelopment = process.env.NODE_ENV === 'development';
-console.log(isDevelopment);
 
 const API_URL = isDevelopment
   ? 'https://lldev.thespacedevs.com/2.2.0/launch/'
