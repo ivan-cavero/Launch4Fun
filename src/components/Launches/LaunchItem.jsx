@@ -130,6 +130,7 @@ const LaunchItem = React.memo(({ launch, past }) => {
     });
   }  
 
+
   const DOMAIN = 'https://launch4fun.com/';
   const shareUrl = async () => {
     const url = `${DOMAIN}${launch.name.replace(/ /g, '-')}`;
