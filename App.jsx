@@ -2,7 +2,7 @@ import React from "react";
 import { useFonts } from "expo-font";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { NavigationContainer, DefaultTheme, DarkTheme } from "@react-navigation/native";
-import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import { createDrawerNavigator, DrawerContentScrollView, DrawerItemList } from '@react-navigation/drawer';
 import { View, Text, useColorScheme, TouchableOpacity, StatusBar } from "react-native";
 import { MenuProvider } from 'react-native-popup-menu';
@@ -22,7 +22,7 @@ import Header from "./src/components/Header/Header";
 import ConfigurationView from "./src/components/Configuration/ConfigurationView";
 import FavoritesView from "./src/components/Favorites/FavoritesView";
 
-const Tab = createBottomTabNavigator();
+const Tab = createMaterialTopTabNavigator();
 const Drawer = createDrawerNavigator();
 
 const App = () => {
@@ -46,13 +46,19 @@ const App = () => {
     tabBarInactiveTintColor: 'gray',
     tabBarStyle: {
       backgroundColor: scheme === 'dark' ? '#161616' : '#fff',
-      paddingBottom: 2,
+      height: 55,
     },
     tabBarItemStyle: {
-      paddingTop: 8, 
+      paddingTop: 5, 
+      paddingBottom: 2
     },
-  
-    tabBarIcon: ({ color, size }) => {
+    tabBarLabelStyle: {
+      fontSize: 10,
+      marginTop: 2,
+      marginBottom: 2
+    },
+    tabBarIcon: ({ color }) => {
+      const size = 20
       const iconComponent = route.name === 'Upcoming' ? (
         <RocketIcon size={size} color={color} />
       ) : (
@@ -64,12 +70,15 @@ const App = () => {
   });
 
   const HomeScreen = ({ navigation }) => (
-    <Tab.Navigator swipeEnabled={true} screenOptions={createScreenOptions}>
-      <Tab.Screen name="Upcoming" component={UpcomingLaunchList} options={{ header: () => <Header navigation={navigation} /> }} />
-      <Tab.Screen name="Past" component={PastLaunchList} options={{ header: () => <Header navigation={navigation} /> }} />
-    </Tab.Navigator>
+    <React.Fragment>
+      <Header navigation={navigation} />
+      <Tab.Navigator tabBarPosition='bottom' screenOptions={createScreenOptions}>
+        <Tab.Screen name="Upcoming" component={UpcomingLaunchList} />
+        <Tab.Screen name="Past" component={PastLaunchList} />
+      </Tab.Navigator>
+    </React.Fragment>
   );
-
+  
   const ConfigurationScreen = ({ navigation }) => (
     <React.Fragment>
       <Header navigation={navigation} />

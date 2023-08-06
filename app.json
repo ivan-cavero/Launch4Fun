@@ -2,10 +2,10 @@
   "expo": {
     "name": "Launch4Fun",
     "slug": "launch4fun",
-    "version": "0.1.0",
+    "version": "0.2.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
-    "userInterfaceStyle": "light",
+    "userInterfaceStyle": "automatic",
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",
@@ -32,6 +32,14 @@
         "projectId": "a39126b1-e252-45f0-8171-6221eda58f23"
       }
     },
+    "plugins": [
+      [
+        "expo-calendar",
+        {
+          "calendarPermission": "The app needs to access your calendar."
+        }
+      ]
+    ],
     "owner": "nozus"
   }
 }

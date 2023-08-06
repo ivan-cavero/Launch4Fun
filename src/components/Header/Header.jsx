@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { StyleSheet, Text, TouchableOpacity, View, Dimensions  } from 'react-native';
 import CustomTooltip from '../Reusable/CustomTooltip';
 import { LinearGradient } from 'expo-linear-gradient';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -14,6 +14,10 @@ import { checkForNewVersion } from '../../utils/versionChecker';
 const Header = ({ navigation }) => {
   const [isConnected, setIsConnected] = useState(true);
   const [newVersionAvailable, setNewVersionAvailable] = useState(false);
+
+  const windowWidth = Dimensions.get('window').width;
+
+  const calculateFontSize = () => windowWidth < 350 ? 18 : 24
 
   const handleMenuIconClick = () => {
     navigation.openDrawer();
@@ -53,7 +57,9 @@ const Header = ({ navigation }) => {
         <TouchableOpacity style={styles.menuIcon} onPress={handleMenuIconClick}>
           <MenuIcon size={24} />
         </TouchableOpacity>
-        <Text style={styles.title}>Launch4Fun</Text>
+        <Text style={[styles.title, { fontSize: calculateFontSize() }]} numberOfLines={1}>
+          Launch4Fun
+        </Text>
         <View style={styles.iconsContainer}>
           <View style={styles.iconsRightContainer}>
             {newVersionAvailable && (

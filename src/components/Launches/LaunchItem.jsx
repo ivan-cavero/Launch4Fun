@@ -6,6 +6,8 @@ import { Menu, MenuOptions, MenuOption, MenuTrigger } from 'react-native-popup-m
 import { useDispatch, useSelector } from 'react-redux';
 import { addToFavorites, removeFromFavorites } from '../../store/favorites';
 import { useColorScheme } from 'react-native';
+import * as Calendar from 'expo-calendar';
+import { showMessage } from 'react-native-flash-message';
 
 import RocketImage from './ItemComponents/RocketImage';
 import DetailsContainer from './ItemComponents/DetailsContainer';
@@ -75,6 +77,60 @@ const LaunchItem = React.memo(({ launch, past }) => {
     setIsInFavorites(!isInFavorites);
   };
 
+  const addToCalendar = async () => {
+    const { status } = await Calendar.requestCalendarPermissionsAsync();
+    
+    if (status !== 'granted') {
+      showMessage({
+        message: 'Permission to access calendar denied',
+        type: 'error'
+      })
+
+      setIsMenuOpen(false)
+      return
+    }
+  
+    const calendars = await Calendar.getCalendarsAsync(Calendar.EntityTypes.EVENT);
+    const spaceLaunchesCalendar = calendars.find((calendar) => calendar.title === 'Launches');
+  
+    const defaultCalendarSource =
+      Platform.OS === 'ios'
+        ? await Calendar.getDefaultCalendarAsync()
+        : { isLocalAccount: true, name: 'Space' };
+  
+    const calendarData = spaceLaunchesCalendar || {
+      id: await Calendar.createCalendarAsync({
+        title: 'Launches',
+        color: 'blue',
+        entityType: Calendar.EntityTypes.EVENT,
+        sourceId: defaultCalendarSource.id,
+        source: defaultCalendarSource,
+        name: 'internalCalendarName',
+        ownerAccount: 'personal',
+        accessLevel: Calendar.CalendarAccessLevel.OWNER,
+      }),
+    };
+  
+    const event = {
+      title: `🚀 ${launch.name}`,
+      startDate: launchDate,
+      endDate: launchDate,
+      timeZone: timeZone,
+      alarms: [{ relativeOffset: -30 }],
+      availability: 'busy',
+      calendarId: calendarData.id,
+    };
+  
+    await Calendar.createEventAsync(calendarData.id, event)
+    setIsMenuOpen(false)
+
+    showMessage({
+      message: 'Event added to calendar',
+      type: 'success'
+    });
+  }  
+
+
   const DOMAIN = 'https://launch4fun.com/';
   const shareUrl = async () => {
     const url = `${DOMAIN}${launch.name.replace(/ /g, '-')}`;
@@ -86,7 +142,10 @@ const LaunchItem = React.memo(({ launch, past }) => {
     try {
       await Share.share(shareOptions);
     } catch (error) {
-      alert(`Error: ${error.message}`);
+      showMessage({
+        message: 'Error: ${error.message}',
+        type: 'error'
+      });
     }
   };
 
@@ -94,6 +153,7 @@ const LaunchItem = React.memo(({ launch, past }) => {
     cardContainer: {
       paddingHorizontal: 13,
       marginTop: 15,
+      flex: 1,
     },
     card: {
       flexDirection: 'row-reverse',
@@ -101,7 +161,8 @@ const LaunchItem = React.memo(({ launch, past }) => {
       borderRadius: 10,
       overflow: 'hidden',
       width: '100%',
-      height: 134,
+      minHeight: 130,
+      flex: 1,
       shadowColor: '#000',
       shadowOffset: { width: 0, height: 1 },
       shadowOpacity: 0.1,
@@ -125,7 +186,7 @@ const LaunchItem = React.memo(({ launch, past }) => {
           <RocketImage uri={launch.image} isFavorite={isInFavorites} />
           <DetailsContainer
             name={launch.name}
-            location={launch.pad.location.name}
+            agency={launch.launch_service_provider.name}
             launchDate={launchDate}
             status={launch.status.name}
             statusDescription={launch.status.description}
@@ -136,6 +197,7 @@ const LaunchItem = React.memo(({ launch, past }) => {
             <MenuOptions>
               <MenuOption onSelect={handleAddOrRemoveFavorites}><Text>{isInFavorites ? 'Remove from favorites' : 'Add to favorites'}</Text></MenuOption>
               <MenuOption onSelect={shareUrl}><Text>Share</Text></MenuOption>
+              <MenuOption onSelect={addToCalendar}><Text>Add to Calendar</Text></MenuOption>
             </MenuOptions>
           </Menu>
         </View>
