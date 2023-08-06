@@ -32,6 +32,14 @@
         "projectId": "a39126b1-e252-45f0-8171-6221eda58f23"
       }
     },
+    "plugins": [
+      [
+        "expo-calendar",
+        {
+          "calendarPermission": "The app needs to access your calendar."
+        }
+      ]
+    ],
     "owner": "nozus"
   }
 }
