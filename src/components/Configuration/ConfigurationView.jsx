@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useMemo } from 'react';
-import { Text, View, TouchableOpacity, StyleSheet } from 'react-native';
+import { Text, View, TouchableOpacity, StyleSheet, ScrollView } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
 import { setTheme } from '../../store/configuration';
 import { showMessage } from 'react-native-flash-message';
@@ -151,7 +151,7 @@ const ConfigurationPage = () => {
 	const styles = useMemo(() => getStyles(themes[isDarkMode ? 'dark' : 'light']), [isDarkMode]);
 
 	return (
-		<View style={styles.container}>
+		<ScrollView style={styles.container}>
 			{/* Account Section */}
 			<View style={styles.section}>
 				<Text style={styles.sectionTitle}>Account</Text>
@@ -250,7 +250,7 @@ const ConfigurationPage = () => {
 					</TouchableOpacity>
 				))}
 			</ReusableModal>
-		</View>
+		</ScrollView>
 	);
 };
 
