@@ -5,7 +5,7 @@ import { useSelector } from 'react-redux';
 
 import DateStatusContainer from './DateStatusContainer';
 
-const DetailsContainer = ({ name, location, launchDate, status, statusDescription, timeRemaining }) => {
+const DetailsContainer = ({ name, agency, launchDate, status, statusDescription, timeRemaining }) => {
   const scheme = useColorScheme();
 
   const checkTheme = useSelector((state) => state.configuration?.theme);
@@ -24,7 +24,7 @@ const DetailsContainer = ({ name, location, launchDate, status, statusDescriptio
       fontWeight: 'bold',
       color: theme === 'dark' ? '#ffffff' : '#000000',
     },
-    location: {
+    agency: {
       fontSize: 12,
       fontWeight: 'bold',
       color: theme === 'dark' ? '#9E9E9E' : '#7E7E7E',
@@ -37,8 +37,12 @@ const DetailsContainer = ({ name, location, launchDate, status, statusDescriptio
 
   return (
     <View style={styles.detailsContainer}>
-      <Text style={styles.name}>{name}</Text>
-      <Text style={styles.location}>{location}</Text>
+      <Text numberOfLines={2} ellipsizeMode="tail" style={styles.name}>
+        {name}
+      </Text>
+      <Text numberOfLines={1} ellipsizeMode="tail" style={styles.agency}>
+        {agency}
+      </Text>
         <DateStatusContainer
         launchDate={launchDate}
         status={status}

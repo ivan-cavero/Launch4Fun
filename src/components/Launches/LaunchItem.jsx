@@ -94,6 +94,7 @@ const LaunchItem = React.memo(({ launch, past }) => {
     cardContainer: {
       paddingHorizontal: 13,
       marginTop: 15,
+      flex: 1,
     },
     card: {
       flexDirection: 'row-reverse',
@@ -101,7 +102,8 @@ const LaunchItem = React.memo(({ launch, past }) => {
       borderRadius: 10,
       overflow: 'hidden',
       width: '100%',
-      height: 134,
+      minHeight: 130,
+      flex: 1,
       shadowColor: '#000',
       shadowOffset: { width: 0, height: 1 },
       shadowOpacity: 0.1,
@@ -125,7 +127,7 @@ const LaunchItem = React.memo(({ launch, past }) => {
           <RocketImage uri={launch.image} isFavorite={isInFavorites} />
           <DetailsContainer
             name={launch.name}
-            location={launch.pad.location.name}
+            agency={launch.launch_service_provider.name}
             launchDate={launchDate}
             status={launch.status.name}
             statusDescription={launch.status.description}
