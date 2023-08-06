@@ -6,6 +6,7 @@ import { showMessage } from 'react-native-flash-message';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import ReusableModal from '../Reusable/ReusableModal';
+import app from '../../../app.json'
 
 const ConfigurationPage = () => {
 	const dispatch = useDispatch();
@@ -199,8 +200,8 @@ const ConfigurationPage = () => {
 				<View style={styles.row}>
 					<MaterialCommunityIcons name="help-circle-outline" size={24} color={styles.value.color} style={styles.icon} />
 					<View style={styles.column}>
-						<Text style={styles.value}>Launch4Fun</Text>
-						<Text style={styles.description}>Android: 0.1.0</Text>
+						<Text style={styles.value}>{app.expo.name}</Text>
+						<Text style={styles.description}>Android: {app.expo.version}</Text>
 					</View>
 				</View>
 				<View style={styles.row}>
