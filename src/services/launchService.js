@@ -1,7 +1,11 @@
-// src/services/launchService.js
 import axios from 'axios';
 
-const API_URL = 'https://lldev.thespacedevs.com/2.2.0/launch/';
+const isDevelopment = process.env.NODE_ENV === 'development';
+console.log(isDevelopment);
+
+const API_URL = isDevelopment
+  ? 'https://lldev.thespacedevs.com/2.2.0/launch/'
+  : 'https://ll.thespacedevs.com/2.2.0/launch/';
 
 export const getUpcomingLaunches = async (offset = 0, limit = 10) => {
   try {
