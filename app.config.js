@@ -22,7 +22,8 @@ module.exports = {
     }
   },
   web: {
-    favicon: process.env.FAV_ICON
+    favicon: process.env.FAV_ICON,
+    bundler: "metro"
   },
   extra: {
     eas: {
@@ -32,5 +33,8 @@ module.exports = {
     API_URL_ANALYTICS: process.env.API_URL_ANALYTICS,
     APP_NAME: process.env.APP_NAME,
     APP_DOMAIN: process.env.APP_DOMAIN
-  }
+  },
+  plugins: [
+    "expo-router"
+  ]
 }
