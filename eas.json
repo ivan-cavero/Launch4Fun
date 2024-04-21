@@ -6,13 +6,49 @@
     "development": {
       "developmentClient": true,
       "distribution": "internal",
+      "releaseChannel": "dev",
+      "env": {
+        "API_URL_ANALYTICS": "http://129.151.253.77:8000/",
+        "APP_NAME": "Launch4Fun (DEV)",
+        "APP_DOMAIN": "dev.launch4fun.com",
+        "ICON_PATH": "./assets/dev/icon.png",
+        "SPLASH_IMAGE_PATH": "./assets/dev/splash.png",
+        "ADAPTIVE_ICON": "./assets/dev/adaptive-icon.png",
+        "FAV_ICON": "./assets/dev/favicon.png",
+        "API_URL": "https://lldev.thespacedevs.com/2.2.0"
+      },
       "bun": "1.1.4"
     },
     "preview": {
       "distribution": "internal",
+      "android": {
+        "buildType": "apk"
+      },
+      "env": {
+        "API_URL_ANALYTICS": "http://129.151.253.77:8000/",
+        "APP_NAME": "Launch4Fun (PREVIEW)",
+        "APP_DOMAIN": "launch4fun.com",
+        "ICON_PATH": "./assets/dev/icon.png",
+        "SPLASH_IMAGE_PATH": "./assets/dev/splash.png",
+        "ADAPTIVE_ICON": "./assets/dev/adaptive-icon.png",
+        "FAV_ICON": "./assets/dev/favicon.png",
+        "API_URL": "https://lldev.thespacedevs.com/2.2.0"
+      },
       "bun": "1.1.4"
     },
     "production": {
+      "releaseChannel": "prod",
+      "distribution": "store",
+      "env": {
+        "API_URL_ANALYTICS": "http://129.151.253.77:8000/",
+        "APP_NAME": "Launch4Fun",
+        "APP_DOMAIN": "launch4fun.com",
+        "ICON_PATH": "./assets/prod/icon.png",
+        "SPLASH_IMAGE_PATH": "./assets/prod/splash.png",
+        "ADAPTIVE_ICON": "./assets/prod/adaptive-icon.png",
+        "FAV_ICON": "./assets/prod/favicon.png",
+        "API_URL": "https://ll.thespacedevs.com/2.2.0"
+      },
       "bun": "1.1.4"
     }
   },
