@@ -19,7 +19,8 @@ module.exports = {
     adaptiveIcon: {
       foregroundImage: process.env.ADAPTIVE_ICON,
       backgroundColor: '#242424'
-    }
+    },
+    package: 'launch4fun.com'
   },
   web: {
     favicon: process.env.FAV_ICON,
