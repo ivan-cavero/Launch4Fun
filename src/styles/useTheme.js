@@ -30,9 +30,9 @@ export default function useTheme() {
       bg300: '#2d2d2d',
       mode: 'dark'
     }
-  };
+  }
 
-  const currentColors = colors[colorScheme] || colors.dark;
+  const currentColors = colors[colorScheme] || colors.dark
 
-  return currentColors;
+  return currentColors
 }
