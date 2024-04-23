@@ -1,9 +1,12 @@
 import React from 'react'
 import { View, Animated, StyleSheet } from 'react-native'
+import useTheme from '@/styles/useTheme'
 
 const AnimatedView = Animated.createAnimatedComponent(View)
 
 export default function SkeletonLoading({ blockCount = 3, imageWidth = 120, blockHeight = 27 }) {
+  const appTheme = useTheme()
+
   const animatedValue = new Animated.Value(0)
 
   Animated.loop(
@@ -23,15 +26,20 @@ export default function SkeletonLoading({ blockCount = 3, imageWidth = 120, bloc
 
   const gradientColor = animatedValue.interpolate({
     inputRange: [0, 1],
-    outputRange: ['#1b1b1b', '#3A3A3A']
+    outputRange: [
+      appTheme.mode === 'light' ? appTheme.bg200 : '#1b1b1b',
+      appTheme.mode === 'light' ? appTheme.bg300 : '#3A3A3A'
+    ]
   })
+
+  const backgroundColor = appTheme.mode === 'light' ? '#f5f5f5' : '#1b1b1b'
 
   const blocks = Array.from({ length: blockCount }, (_, index) => (
     <AnimatedView key={index} style={[styles.skeletonBlock, { backgroundColor: gradientColor, marginBottom: 5, height: blockHeight }]} />
   ))
 
   return (
-    <View style={styles.skeletonContainer}>
+    <View style={[styles.skeletonContainer, { backgroundColor: backgroundColor }]}>
       <View style={styles.skeletonInfo}>{blocks}</View>
       <AnimatedView style={[styles.skeletonImage, { backgroundColor: gradientColor, width: imageWidth }]} />
     </View>
@@ -42,8 +50,7 @@ const styles = StyleSheet.create({
   skeletonContainer: {
     flexDirection: 'row',
     marginVertical: 5,
-    borderRadius: 5,
-    backgroundColor: '#1b1b1b'
+    borderRadius: 5
   },
   skeletonInfo: {
     flex: 1,

@@ -8,9 +8,14 @@ export default function HomeLayout() {
 
   const tabs = [
     {
-      name: 'index',
+      name: 'upcoming',
       title: 'Upcoming',
-      icon: <Entypo name="rocket" size={24} color={appTheme.text100} />
+      icon: 'rocket'
+    },
+    {
+      name: 'previous',
+      title: 'Previous',
+      icon: 'back-in-time'
     }
   ]
 
@@ -31,7 +36,7 @@ export default function HomeLayout() {
           key={tab.name}
           name={tab.name}
           options={{
-            tabBarIcon: () => tab.icon,
+            tabBarIcon: () => <Entypo name={tab.icon} size={24} color={appTheme.text100} />,
             title: tab.title
           }}
         />
