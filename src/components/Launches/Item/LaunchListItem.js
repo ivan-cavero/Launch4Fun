@@ -1,5 +1,8 @@
 import { View, Text, Image, StyleSheet, Platform, Dimensions } from 'react-native'
 import useTheme from '@/styles/useTheme'
+import { formatDateToLocal } from '@/utils/dateUtils'
+import { useCountdown } from '@/hooks/useCountdown'
+import { getStatusBackgroundColor, getStatusText } from '@/utils/statusUtil'
 
 export default function LaunchListItem({ launch }) {
   const appTheme = useTheme()
@@ -55,12 +58,11 @@ export default function LaunchListItem({ launch }) {
       marginLeft: 10,
       paddingVertical: 1,
       paddingHorizontal: 4,
-      borderRadius: 7,
-      backgroundColor: appTheme.accent100
+      borderRadius: 7
     },
     launchStatusText: {
       fontSize: 8,
-      color: appTheme.text100
+      color: '#212529'
     },
     itemImage: {
       width: 80,
@@ -70,6 +72,11 @@ export default function LaunchListItem({ launch }) {
     }
   })
 
+  const formattedDate = formatDateToLocal(launch.net)
+  const statusBackgroundColor = getStatusBackgroundColor(launch.status?.name)
+  const statusText = getStatusText(launch.status?.name)
+  const countdown = useCountdown(launch.net)
+
   return (
     <View style={styles.itemContainer}>
       <View style={styles.infoContainer}>
@@ -77,12 +84,12 @@ export default function LaunchListItem({ launch }) {
           {launch.name}
         </Text>
         <View style={styles.dateAndCountdown}>
-          <Text style={styles.itemNet}>20/10/2022</Text>
-          <View style={styles.launchStatus}>
-            <Text style={styles.launchStatusText}>TBD</Text>
+          <Text style={styles.itemNet}>{formattedDate}</Text>
+          <View style={[styles.launchStatus, { backgroundColor: statusBackgroundColor }]}>
+            <Text style={styles.launchStatusText}>{statusText}</Text>
           </View>
         </View>
-        <Text style={styles.countdown}>in 4d</Text>
+        <Text style={styles.countdown}>{countdown}</Text>
       </View>
       <Image source={{ uri: launch.image }} style={styles.itemImage} />
     </View>
