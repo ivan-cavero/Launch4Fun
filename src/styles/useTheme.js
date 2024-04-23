@@ -14,7 +14,8 @@ export default function useTheme() {
       text200: '#6C757D',
       bg100: '#FFFFFF',
       bg200: '#F8F9FA',
-      bg300: '#E9ECEF'
+      bg300: '#E9ECEF',
+      mode: 'light'
     },    
     dark: {
       primary100: '#0d6efd',
@@ -26,7 +27,8 @@ export default function useTheme() {
       text200: '#adb5bd',
       bg100: '#121212',
       bg200: '#1e1e1e',
-      bg300: '#2d2d2d'
+      bg300: '#2d2d2d',
+      mode: 'dark'
     }
   };
 
