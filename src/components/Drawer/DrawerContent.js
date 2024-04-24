@@ -16,13 +16,6 @@ const DrawerContent = () => {
       notificationsCount: 2
     },
     {
-      path: '/premium',
-      label: 'Premium',
-      iconName: 'star',
-      iconFamily: 'Feather ',
-      notificationsCount: 0
-    },
-    {
       path: '/settings',
       label: 'Settings',
       iconName: 'settings',
