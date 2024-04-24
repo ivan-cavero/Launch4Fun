@@ -1,25 +1,14 @@
 import React from 'react'
-import { View, Text, Image, StyleSheet, ScrollView, TouchableOpacity, Linking, Dimensions, ActivityIndicator, Platform } from 'react-native'
-import MapView, { Marker } from 'react-native-maps'
+import { View, Text, Image, StyleSheet, ScrollView, TouchableOpacity, Dimensions, ActivityIndicator } from 'react-native'
 
 const { width } = Dimensions.get('window')
 const isLargeScreen = width >= 768
 
-const formatDate = (date) => {
-  const options = { year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit' }
-  return new Date(date).toLocaleDateString(undefined, options)
-}
-
 const LaunchDetail = ({ launch }) => {
-  if (!launch) {
-    return <ActivityIndicator size='large' color='#ffffff' />
-  }
-
-  const renderDetailItem = (label, content, Icon) => {
+  const renderDetailItem = (label, content) => {
     if (!content) return null
     return (
       <View style={styles.detailItem} key={label}>
-        {Icon && <Icon size={18} color='#BBB' style={styles.detailIcon} />}
         <Text style={styles.detailLabel}>{label}:</Text>
         <Text style={styles.detailContent}>{content}</Text>
       </View>
@@ -30,7 +19,7 @@ const LaunchDetail = ({ launch }) => {
     <View style={styles.section} key={title}>
       <Text style={styles.sectionTitle}>{title}</Text>
       <Text style={styles.sectionDescription}>{description}</Text>
-      {data.map((item, index) => renderDetailItem(item.label, item.content, item.Icon, index))}
+      {data.map(item => renderDetailItem(item.label, item.content))}
     </View>
   )
 
@@ -75,37 +64,10 @@ const LaunchDetail = ({ launch }) => {
 
         {renderSection('Launch Info', 'Detailed launch timeline and window.', [
           { label: 'Launch Pad', content: launch.pad?.name },
-          { label: 'Window Start', content: formatDate(launch.window_start) },
-          { label: 'Window End', content: formatDate(launch.window_end) },
+          { label: 'Window Start', content: launch.window_start },
+          { label: 'Window End', content: launch.window_end },
           { label: 'Probability', content: `${launch.probability}%` }
         ])}
-
-        {Platform.OS !== 'web' && launch.pad?.map_url && (
-          <View style={styles.mapContainer}>
-            <MapView
-              style={styles.map}
-              initialRegion={{
-                latitude: Number.parseFloat(launch.pad.latitude),
-                longitude: Number.parseFloat(launch.pad.longitude),
-                latitudeDelta: 0.0922,
-                longitudeDelta: 0.0421
-              }}
-            >
-              <Marker
-                coordinate={{
-                  latitude: Number.parseFloat(launch.pad.latitude),
-                  longitude: Number.parseFloat(launch.pad.longitude)
-                }}
-              />
-            </MapView>
-          </View>
-        )}
-
-        {Platform.OS === 'web' && <Text style={styles.mapPlaceholder}>Map visualization is disabled in web version.</Text>}
-
-        <TouchableOpacity onPress={() => Linking.openURL(launch.pad?.wiki_url || '')} style={styles.learnMore}>
-          <Text style={styles.learnMoreText}>Learn more on Wikipedia</Text>
-        </TouchableOpacity>
       </View>
     </ScrollView>
   )
