@@ -1,7 +1,7 @@
-import { MaterialCommunityIcons, MaterialIcons, Feather, Octicons } from '@expo/vector-icons'
+import useTheme from '@/styles/useTheme'
+import { Feather, MaterialCommunityIcons, MaterialIcons, Octicons } from '@expo/vector-icons'
 import React from 'react'
-import { TouchableOpacity, View, Text, StyleSheet } from 'react-native'
-import useTheme from '@/styles/useTheme';
+import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 
 const DrawerItem = ({ iconName, label, notificationsCount, isFocused, iconFamily, onPress }) => {
   const appTheme = useTheme();

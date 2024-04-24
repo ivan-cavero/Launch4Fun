@@ -1,7 +1,7 @@
-import React from 'react'
-import { Tabs } from 'expo-router'
-import { Entypo } from '@expo/vector-icons';
 import useTheme from '@/styles/useTheme'
+import { Entypo } from '@expo/vector-icons';
+import { Tabs } from 'expo-router'
+import React from 'react'
 
 export default function HomeLayout() {
   const appTheme = useTheme();

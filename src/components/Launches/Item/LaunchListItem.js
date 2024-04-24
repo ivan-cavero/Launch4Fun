@@ -1,10 +1,10 @@
-import { View, Text, Image, StyleSheet, Platform, Dimensions, Pressable } from 'react-native'
+import { useCountdown } from '@/hooks/useCountdown'
+import { setSelectedLaunch } from '@/store/selectedLaunch'
 import useTheme from '@/styles/useTheme'
 import { formatDateToLocal } from '@/utils/dateUtils'
-import { router } from 'expo-router'
-import { useCountdown } from '@/hooks/useCountdown'
 import { getStatusBackgroundColor, getStatusText } from '@/utils/statusUtil'
-import { setSelectedLaunch } from '@/store/selectedLaunch'
+import { router } from 'expo-router'
+import { Dimensions, Image, Platform, Pressable, StyleSheet, Text, View } from 'react-native'
 import { useDispatch } from 'react-redux'
 
 export default function LaunchListItem({ launch }) {

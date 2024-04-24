@@ -1,7 +1,7 @@
-import { QueryClientProvider, QueryClient } from "@tanstack/react-query"
 import store, { persistor } from '@/store'
-import { SafeAreaProvider } from 'react-native-safe-area-context'
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
 import { Stack } from "expo-router"
+import { SafeAreaProvider } from 'react-native-safe-area-context'
 import { Provider } from 'react-redux'
 import { PersistGate } from 'redux-persist/integration/react'
 

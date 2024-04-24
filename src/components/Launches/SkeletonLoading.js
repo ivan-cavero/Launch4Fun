@@ -1,6 +1,6 @@
-import React from 'react'
-import { View, Animated, StyleSheet } from 'react-native'
 import useTheme from '@/styles/useTheme'
+import React from 'react'
+import { Animated, StyleSheet, View } from 'react-native'
 
 const AnimatedView = Animated.createAnimatedComponent(View)
 

@@ -1,11 +1,11 @@
 import DrawerContent from '@/components/Drawer/DrawerContent'
 import DrawerFooter from '@/components/Drawer/DrawerFooter'
+import useTheme from '@/styles/useTheme'
 import { Drawer } from 'expo-router/drawer'
 import React from 'react'
-import { View, StyleSheet } from 'react-native'
+import { StyleSheet, View } from 'react-native'
 import { GestureHandlerRootView } from 'react-native-gesture-handler'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
-import useTheme from '@/styles/useTheme'
 
 export default function Layout() {
   const insets = useSafeAreaInsets()

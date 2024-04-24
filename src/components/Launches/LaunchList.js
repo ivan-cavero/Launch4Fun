@@ -1,10 +1,10 @@
+import { fetchPastLaunches, fetchUpcomingLaunches } from '@/services/fetchLaunches'
+import useTheme from '@/styles/useTheme'
 import { useQuery } from "@tanstack/react-query"
-import { Text, View, ScrollView, RefreshControl } from 'react-native'
 import React, { useState, useCallback } from 'react'
-import { fetchUpcomingLaunches, fetchPastLaunches } from '@/services/fetchLaunches'
+import { RefreshControl, ScrollView, Text, View } from 'react-native'
 import LaunchListItem from './Item/LaunchListItem'
 import SkeletonLoading from './SkeletonLoading'
-import useTheme from '@/styles/useTheme'
 
 export default function LaunchList({ type }) {
     const appTheme = useTheme()
