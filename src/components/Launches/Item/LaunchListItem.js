@@ -1,34 +1,44 @@
-import { View, Text, Image, StyleSheet, Platform, Dimensions } from 'react-native'
+import { View, Text, Image, StyleSheet, Platform, Dimensions, Pressable } from 'react-native'
 import useTheme from '@/styles/useTheme'
 import { formatDateToLocal } from '@/utils/dateUtils'
+import { router } from 'expo-router'
 import { useCountdown } from '@/hooks/useCountdown'
 import { getStatusBackgroundColor, getStatusText } from '@/utils/statusUtil'
-import { setSelectedLaunch } from '@Store/selectedLaunch'
+import { setSelectedLaunch } from '@/store/selectedLaunch'
+import { useDispatch } from 'react-redux'
 
 export default function LaunchListItem({ launch }) {
   const appTheme = useTheme()
+  const dispatch = useDispatch()
 
   const formattedDate = formatDateToLocal(launch.net)
   const statusBackgroundColor = getStatusBackgroundColor(launch.status?.name)
   const statusText = getStatusText(launch.status?.name)
   const countdown = useCountdown(launch.net)
 
+  const handlePress = () => {
+    dispatch(setSelectedLaunch(launch))
+    router.push({ pathname: `launch/${launch.id}`, params: { name: launch.name } })
+  }
+
   return (
-    <View style={[styles.itemContainer, { backgroundColor: appTheme.bg200 }]}>
-      <View style={styles.infoContainer}>
-        <Text style={[styles.itemName, { color: appTheme.text100 }]} numberOfLines={1}>
-          {launch.name}
-        </Text>
-        <View style={styles.dateAndCountdown}>
-          <Text style={[styles.itemNet, { color: appTheme.primary100 }]}>{formattedDate}</Text>
-          <View style={[styles.launchStatus, { backgroundColor: statusBackgroundColor }]}>
-            <Text style={styles.launchStatusText}>{statusText}</Text>
+    <Pressable onPress={handlePress}>
+      <View style={[styles.itemContainer, { backgroundColor: appTheme.bg200 }]}>
+        <View style={styles.infoContainer}>
+          <Text style={[styles.itemName, { color: appTheme.text100 }]} numberOfLines={1}>
+            {launch.name}
+          </Text>
+          <View style={styles.dateAndCountdown}>
+            <Text style={[styles.itemNet, { color: appTheme.primary100 }]}>{formattedDate}</Text>
+            <View style={[styles.launchStatus, { backgroundColor: statusBackgroundColor }]}>
+              <Text style={styles.launchStatusText}>{statusText}</Text>
+            </View>
           </View>
+          <Text style={[styles.countdown, { color: appTheme.text200 }]}>{countdown}</Text>
         </View>
-        <Text style={[styles.countdown, { color: appTheme.text200 }]}>{countdown}</Text>
+        <Image source={{ uri: launch.image }} style={styles.itemImage} />
       </View>
-      <Image source={{ uri: launch.image }} style={styles.itemImage} />
-    </View>
+    </Pressable>
   )
 }
 
