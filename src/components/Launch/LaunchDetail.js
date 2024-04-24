@@ -1,5 +1,5 @@
 import React from 'react'
-import { View, Text, Image, StyleSheet, ScrollView, TouchableOpacity, Dimensions } from 'react-native'
+import { View, Text, Image, StyleSheet, ScrollView, Dimensions } from 'react-native'
 import useTheme from '@/styles/useTheme'
 
 const { width } = Dimensions.get('window')
@@ -26,21 +26,6 @@ const LaunchDetail = ({ launch }) => {
     </View>
   )
 
-  const renderLiveSection = () => (
-    <View style={[styles.section, { backgroundColor: appTheme.bg200 }]}>
-      <Text style={[styles.sectionTitle, { color: appTheme.text100 }]}>Live Stream</Text>
-      <Text style={[styles.sectionDescription, { color: appTheme.text200 }]}>Watch the launch live stream here when available.</Text>
-      <View style={styles.livePlaceholder}>
-        <Text style={[styles.liveText, { color: appTheme.text200 }]}>Live stream will be shown here.</Text>
-      </View>
-      {!launch.webcast_live && (
-        <TouchableOpacity style={styles.submitButton}>
-          <Text style={[styles.submitButtonText, { color: appTheme.text100 }]}>Submit Live Stream URL</Text>
-        </TouchableOpacity>
-      )}
-    </View>
-  )
-
   return (
     <ScrollView style={[styles.scrollContainer, { backgroundColor: appTheme.bg100 }]}>
       <View style={styles.container}>
@@ -51,7 +36,6 @@ const LaunchDetail = ({ launch }) => {
         <Text style={[styles.status, { color: appTheme.text200 }]}>Status: {launch.status?.name || 'Unknown'}</Text>
 
         <View style={styles.sectionsContainer}>
-          {renderLiveSection()}
           {renderSection('Mission Details', launch.mission?.description, [
             { label: 'Orbit', content: launch.mission?.orbit?.name },
             { label: 'Type', content: launch.mission?.type },
@@ -132,26 +116,6 @@ const styles = StyleSheet.create({
     fontSize: 16,
     flexShrink: 1,
     paddingLeft: 4
-  },
-  livePlaceholder: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    padding: 20,
-    marginVertical: 10,
-    borderRadius: 10
-  },
-  liveText: {
-    fontSize: 16,
-    marginTop: 10
-  },
-  submitButton: {
-    padding: 10,
-    borderRadius: 5,
-    alignItems: 'center',
-    marginTop: 10
-  },
-  submitButtonText: {
-    fontSize: 18
   }
 })
 
