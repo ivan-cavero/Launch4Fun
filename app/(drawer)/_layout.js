@@ -29,9 +29,23 @@ export default function Layout() {
         screenOptions={{
           headerStyle: { backgroundColor: appTheme.bg200 },
           headerTintColor: appTheme.text100,
-          title: 'Launch4Fun'
         }}
-      />
+      >
+        <Drawer.Screen
+          name="home"
+          options={{
+            drawerLabel: 'Home',
+            title: 'Launch4Fun',
+          }}
+        />
+        <Drawer.Screen
+          name="settings/index"
+          options={{
+            drawerLabel: 'Settings',
+            title: 'Settings',
+          }}
+        />
+      </Drawer>
     </GestureHandlerRootView>
   )
 }
