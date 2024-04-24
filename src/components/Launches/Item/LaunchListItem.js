@@ -17,8 +17,8 @@ export default function LaunchListItem({ launch }) {
   const countdown = useCountdown(launch.net)
 
   const handlePress = () => {
-    dispatch(setSelectedLaunch(launch))
-    router.push({ pathname: `launch/${launch.id}`, params: { name: launch.name } })
+    dispatch(setSelectedLaunch(launch));
+    router.push({ pathname: `launch/${launch.id}` });
   }
 
   return (

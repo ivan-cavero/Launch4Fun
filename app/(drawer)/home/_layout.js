@@ -4,7 +4,7 @@ import { Tabs } from 'expo-router'
 import React from 'react'
 
 export default function HomeLayout() {
-  const appTheme = useTheme();
+  const appTheme = useTheme()
 
   const tabs = [
     {
@@ -36,7 +36,7 @@ export default function HomeLayout() {
           key={tab.name}
           name={tab.name}
           options={{
-            tabBarIcon: () => <Entypo name={tab.icon} size={24} color={appTheme.text100} />,
+            tabBarIcon: ({ color }) => <Entypo name={tab.icon} size={24} color={color} />,
             title: tab.title
           }}
         />
