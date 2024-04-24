@@ -39,6 +39,9 @@
     "production": {
       "releaseChannel": "prod",
       "distribution": "store",
+      "android": {
+        "buildType": "apk"
+      },
       "env": {
         "API_URL_ANALYTICS": "http://129.151.253.77:8000/",
         "APP_NAME": "Launch4Fun",
