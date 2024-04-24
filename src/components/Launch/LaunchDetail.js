@@ -1,73 +1,73 @@
 import React from 'react'
-import { View, Text, Image, StyleSheet, ScrollView, TouchableOpacity, Dimensions, ActivityIndicator } from 'react-native'
+import { View, Text, Image, StyleSheet, ScrollView, TouchableOpacity, Dimensions } from 'react-native'
+import useTheme from '@/styles/useTheme'
 
 const { width } = Dimensions.get('window')
 const isLargeScreen = width >= 768
 
 const LaunchDetail = ({ launch }) => {
+  const appTheme = useTheme()
+
   const renderDetailItem = (label, content) => {
-    if (!content) return null
+    if (!content) return null;
     return (
       <View style={styles.detailItem} key={label}>
-        <Text style={styles.detailLabel}>{label}:</Text>
-        <Text style={styles.detailContent}>{content}</Text>
+        <Text style={[styles.detailLabel, { color: appTheme.text100 }]}>{label}:</Text>
+        <Text style={[styles.detailContent, { color: appTheme.text200 }]}>{content}</Text>
       </View>
     )
   }
 
   const renderSection = (title, description, data) => (
-    <View style={styles.section} key={title}>
-      <Text style={styles.sectionTitle}>{title}</Text>
-      <Text style={styles.sectionDescription}>{description}</Text>
+    <View style={[styles.section, { backgroundColor: appTheme.bg200 }]} key={title}>
+      <Text style={[styles.sectionTitle, { color: appTheme.text100 }]}>{title}</Text>
+      <Text style={[styles.sectionDescription, { color: appTheme.text200 }]}>{description}</Text>
       {data.map(item => renderDetailItem(item.label, item.content))}
     </View>
   )
 
-  const renderLiveSection = () => {
-    return (
-      <View style={styles.section}>
-        <Text style={styles.sectionTitle}>Live Stream</Text>
-        <Text style={styles.sectionDescription}>Watch the launch live stream here when available.</Text>
-        <View style={styles.livePlaceholder}>
-          <Text style={styles.liveText}>Live stream will be shown here.</Text>
-        </View>
-        {!launch.webcast_live && (
-          <TouchableOpacity style={styles.submitButton}>
-            <Text style={styles.submitButtonText}>Submit Live Stream URL</Text>
-          </TouchableOpacity>
-        )}
+  const renderLiveSection = () => (
+    <View style={[styles.section, { backgroundColor: appTheme.bg200 }]}>
+      <Text style={[styles.sectionTitle, { color: appTheme.text100 }]}>Live Stream</Text>
+      <Text style={[styles.sectionDescription, { color: appTheme.text200 }]}>Watch the launch live stream here when available.</Text>
+      <View style={styles.livePlaceholder}>
+        <Text style={[styles.liveText, { color: appTheme.text200 }]}>Live stream will be shown here.</Text>
       </View>
-    )
-  }
+      {!launch.webcast_live && (
+        <TouchableOpacity style={styles.submitButton}>
+          <Text style={[styles.submitButtonText, { color: appTheme.text100 }]}>Submit Live Stream URL</Text>
+        </TouchableOpacity>
+      )}
+    </View>
+  )
 
   return (
-    <ScrollView style={styles.scrollContainer}>
+    <ScrollView style={[styles.scrollContainer, { backgroundColor: appTheme.bg100 }]}>
       <View style={styles.container}>
         <Image style={styles.image} source={{ uri: launch.image }} resizeMode={isLargeScreen ? 'center' : 'cover'} />
-        <Text style={styles.launchTitle} numberOfLines={1} ellipsizeMode='tail'>
+        <Text style={[styles.launchTitle, { color: appTheme.text100 }]} numberOfLines={1} ellipsizeMode='tail'>
           {launch.name}
         </Text>
-        <Text style={styles.status}>Status: {launch.status?.name || 'Unknown'}</Text>
+        <Text style={[styles.status, { color: appTheme.text200 }]}>Status: {launch.status?.name || 'Unknown'}</Text>
 
-        {renderLiveSection()}
-
-        {renderSection('Mission Details', launch.mission?.description, [
-          { label: 'Orbit', content: launch.mission?.orbit?.name },
-          { label: 'Type', content: launch.mission?.type },
-          { label: 'Weather Concerns', content: launch.weather_concerns }
-        ])}
-
-        {renderSection('Rocket Details', launch.rocket?.configuration?.full_name, [
-          { label: 'Family', content: launch.rocket?.configuration?.family },
-          { label: 'Variant', content: launch.rocket?.configuration?.variant }
-        ])}
-
-        {renderSection('Launch Info', 'Detailed launch timeline and window.', [
-          { label: 'Launch Pad', content: launch.pad?.name },
-          { label: 'Window Start', content: launch.window_start },
-          { label: 'Window End', content: launch.window_end },
-          { label: 'Probability', content: `${launch.probability}%` }
-        ])}
+        <View style={styles.sectionsContainer}>
+          {renderLiveSection()}
+          {renderSection('Mission Details', launch.mission?.description, [
+            { label: 'Orbit', content: launch.mission?.orbit?.name },
+            { label: 'Type', content: launch.mission?.type },
+            { label: 'Weather Concerns', content: launch.weather_concerns }
+          ])}
+          {renderSection('Rocket Details', launch.rocket?.configuration?.full_name, [
+            { label: 'Family', content: launch.rocket?.configuration?.family },
+            { label: 'Variant', content: launch.rocket?.configuration?.variant }
+          ])}
+          {renderSection('Launch Info', 'Detailed launch timeline and window.', [
+            { label: 'Launch Pad', content: launch.pad?.name },
+            { label: 'Window Start', content: launch.window_start },
+            { label: 'Window End', content: launch.window_end },
+            { label: 'Probability', content: `${launch.probability}%` }
+          ])}
+        </View>
       </View>
     </ScrollView>
   )
@@ -75,14 +75,19 @@ const LaunchDetail = ({ launch }) => {
 
 const styles = StyleSheet.create({
   scrollContainer: {
-    flex: 1,
-    backgroundColor: '#1b1b1b'
+    flex: 1
   },
   container: {
     flex: 1,
     alignItems: 'center',
     justifyContent: 'flex-start',
     paddingBottom: 20
+  },
+  sectionsContainer: {
+    width: '100%',
+    alignItems: 'center',
+    justifyContent: 'flex-start',
+    marginTop: 20
   },
   image: {
     width: '100%',
@@ -92,24 +97,15 @@ const styles = StyleSheet.create({
   launchTitle: {
     fontSize: 24,
     padding: 5,
-    color: '#FFF',
     fontWeight: 'bold',
     paddingVertical: 10
   },
   status: {
     fontSize: 18,
-    color: '#BBB',
     paddingBottom: 10,
     maxWidth: width - 20
   },
-  interactionBar: {
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-    width: '100%',
-    padding: 10
-  },
   section: {
-    backgroundColor: '#333',
     borderRadius: 8,
     padding: 16,
     marginVertical: 8,
@@ -117,12 +113,10 @@ const styles = StyleSheet.create({
   },
   sectionTitle: {
     fontSize: 20,
-    fontWeight: '600',
-    color: '#FFF'
+    fontWeight: '600'
   },
   sectionDescription: {
     fontSize: 14,
-    color: '#BBB',
     marginBottom: 10
   },
   detailItem: {
@@ -131,62 +125,32 @@ const styles = StyleSheet.create({
     marginBottom: 4
   },
   detailLabel: {
-    color: '#FFF',
     fontSize: 16,
     fontWeight: '600'
   },
   detailContent: {
-    color: '#BBB',
     fontSize: 16,
     flexShrink: 1,
     paddingLeft: 4
-  },
-  detailIcon: {
-    marginRight: 5
-  },
-  learnMore: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    padding: 10
-  },
-  learnMoreText: {
-    color: '#BBB',
-    fontSize: 16,
-    marginLeft: 5
-  },
-  mapContainer: {
-    width: '90%',
-    height: 200,
-    borderRadius: 8,
-    overflow: 'hidden',
-    marginTop: 10
-  },
-  map: {
-    ...StyleSheet.absoluteFillObject
   },
   livePlaceholder: {
     alignItems: 'center',
     justifyContent: 'center',
     padding: 20,
     marginVertical: 10,
-    backgroundColor: '#333',
     borderRadius: 10
   },
   liveText: {
     fontSize: 16,
-    color: '#BBBBBB',
     marginTop: 10
   },
   submitButton: {
-    backgroundColor: '#444',
     padding: 10,
     borderRadius: 5,
     alignItems: 'center',
     marginTop: 10
   },
   submitButtonText: {
-    color: '#FFF',
     fontSize: 18
   }
 })
