@@ -9,7 +9,7 @@ class I18nManager {
     const deviceLanguage = getLocales()[0].languageTag
     this.i18nInstance = new I18n({
       'es-ES': es,
-      'en-US': es
+      'en-US': en
     })
     this.i18nInstance.locale = deviceLanguage
   }

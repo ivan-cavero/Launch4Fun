@@ -3,12 +3,15 @@ import Constants from 'expo-constants'
 import { osName } from 'expo-device'
 import { View, Text, TouchableOpacity, StyleSheet, ScrollView, Platform } from 'react-native'
 import useTheme from '@/styles/useTheme'
-import i18nManager from '@/locales';
+import i18nManager from '@/locales'
+import { Picker } from '@react-native-picker/picker'
+import React, { useState } from 'react'
 
 export default function ConfigPage() {
   const i18n = i18nManager.getInstance()
   const appTheme = useTheme()
   const appVersion = Constants.expoConfig.version
+  const [selectedLanguage, setSelectedLanguage] = useState(i18n.locale)
 
   const handleClearCache = async () => {
     try {
@@ -30,6 +33,21 @@ export default function ConfigPage() {
           <TouchableOpacity style={[styles.clearCacheButton, { backgroundColor: appTheme.accent100 }]} onPress={handleClearCache}>
             <Text style={[styles.clearCacheButtonText, { color: appTheme.text100 }]}>{i18n.t('clearCache')}</Text>
           </TouchableOpacity>
+        </View>
+        <View style={[styles.section, { backgroundColor: appTheme.bg200 }]}>
+          <Text style={[styles.sectionTitle, { color: appTheme.text100 }]}>{i18n.t('language')}</Text>
+          <Picker
+            selectedValue={selectedLanguage}
+            onValueChange={(itemValue) => {
+              setSelectedLanguage(itemValue)
+              i18nManager.setLocale(itemValue)
+            }}
+            style={{ color: appTheme.text200 }}
+            dropdownIconColor={appTheme.text200}
+          >
+            <Picker.Item label="English" value="en-US" />
+            <Picker.Item label="Español" value="es-ES" />
+          </Picker>
         </View>
         <View style={[styles.section, { backgroundColor: appTheme.bg200 }]}>
           <Text style={[styles.sectionTitle, { color: appTheme.text100 }]}>{i18n.t('appInfo')}</Text>
