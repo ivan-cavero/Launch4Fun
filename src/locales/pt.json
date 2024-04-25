@@ -11,6 +11,21 @@
     "clearCache": "Limpar Cache",
     "language": "Idioma",
     "appInfo": "Info da App",
-    "clientVersion": "Versão do Cliente"
+    "clientVersion": "Versão do Cliente",
+
+    "unknownStatus": "Desconhecido",
+    "missionDetails": "Detalhes da missão",
+    "orbit": "Órbita",
+    "type": "Tipo",
+    "weatherConcerns": "Preocupações meteorológicas",
+    "rocketDetails": "Detalhes do foguete",
+    "family": "Família",
+    "variant": "Variante",
+    "launchInfo": "Informações de lançamento",
+    "launchInfoDetails": "Detalhes da linha do tempo e janela de lançamento.",
+    "launchPad": "Plataforma de lançamento",
+    "windowStart": "Início da janela",
+    "windowEnd": "Fim da janela",
+    "probability": "Probabilidade"
   }
   

@@ -1,17 +1,22 @@
 import React from 'react'
 import { View, Text, Image, StyleSheet, ScrollView, Dimensions } from 'react-native'
 import useTheme from '@/styles/useTheme'
+import i18nManager from '@/locales'
 
 const { width } = Dimensions.get('window')
 const isLargeScreen = width >= 768
 
 const LaunchDetail = ({ launch }) => {
   const appTheme = useTheme()
+  const i18n = i18nManager.getInstance()
 
   const renderDetailItem = (label, content) => {
-    if (!content) return null;
+    if (!content) return null
+  
+    const isLabelLong = label.length > 24
+  
     return (
-      <View style={styles.detailItem} key={label}>
+      <View style={[styles.detailItem, { flexDirection: isLabelLong ? 'column' : 'row' }]} key={label}>
         <Text style={[styles.detailLabel, { color: appTheme.text100 }]}>{label}:</Text>
         <Text style={[styles.detailContent, { color: appTheme.text200 }]}>{content}</Text>
       </View>
@@ -33,23 +38,23 @@ const LaunchDetail = ({ launch }) => {
         <Text style={[styles.launchTitle, { color: appTheme.text100 }]} numberOfLines={1} ellipsizeMode='tail'>
           {launch.name}
         </Text>
-        <Text style={[styles.status, { color: appTheme.text200 }]}>Status: {launch.status?.name || 'Unknown'}</Text>
+        <Text style={[styles.status, { color: appTheme.text200 }]}>Status: {launch.status?.name || i18n.t('unknownStatus')}</Text>
 
         <View style={styles.sectionsContainer}>
-          {renderSection('Mission Details', launch.mission?.description, [
-            { label: 'Orbit', content: launch.mission?.orbit?.name },
-            { label: 'Type', content: launch.mission?.type },
-            { label: 'Weather Concerns', content: launch.weather_concerns }
+          {renderSection(i18n.t('missionDetails'), launch.mission?.description, [
+            { label: i18n.t('orbit'), content: launch.mission?.orbit?.name },
+            { label: i18n.t('type'), content: launch.mission?.type },
+            { label: i18n.t('weatherConcerns'), content: launch.weather_concerns }
           ])}
-          {renderSection('Rocket Details', launch.rocket?.configuration?.full_name, [
-            { label: 'Family', content: launch.rocket?.configuration?.family },
-            { label: 'Variant', content: launch.rocket?.configuration?.variant }
+          {renderSection(i18n.t('rocketDetails'), launch.rocket?.configuration?.full_name, [
+            { label: i18n.t('family'), content: launch.rocket?.configuration?.family },
+            { label: i18n.t('variant'), content: launch.rocket?.configuration?.variant }
           ])}
-          {renderSection('Launch Info', 'Detailed launch timeline and window.', [
-            { label: 'Launch Pad', content: launch.pad?.name },
-            { label: 'Window Start', content: launch.window_start },
-            { label: 'Window End', content: launch.window_end },
-            { label: 'Probability', content: `${launch.probability}%` }
+          {renderSection(i18n.t('launchInfo'), i18n.t('launchInfoDetails'), [
+            { label: i18n.t('launchPad'), content: launch.pad?.name },
+            { label: i18n.t('windowStart'), content: launch.window_start },
+            { label: i18n.t('windowEnd'), content: launch.window_end },
+            { label: i18n.t('probability'), content: `${launch.probability}%` }
           ])}
         </View>
       </View>
@@ -105,7 +110,7 @@ const styles = StyleSheet.create({
   },
   detailItem: {
     flexDirection: 'row',
-    alignItems: 'center',
+    alignItems: 'left',
     marginBottom: 4
   },
   detailLabel: {

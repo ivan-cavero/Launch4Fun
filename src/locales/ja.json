@@ -11,6 +11,21 @@
     "clearCache": "キャッシュをクリア",
     "language": "言語",
     "appInfo": "アプリ情報",
-    "clientVersion": "クライアントバージョン"
+    "clientVersion": "クライアントバージョン",
+
+    "unknownStatus": "不明",
+    "missionDetails": "ミッション詳細",
+    "orbit": "軌道",
+    "type": "タイプ",
+    "weatherConcerns": "天気の懸念",
+    "rocketDetails": "ロケットの詳細",
+    "family": "ファミリー",
+    "variant": "バリアント",
+    "launchInfo": "打ち上げ情報",
+    "launchInfoDetails": "詳細な打ち上げタイムラインとウィンドウ。",
+    "launchPad": "打ち上げ台",
+    "windowStart": "ウィンドウ開始",
+    "windowEnd": "ウィンドウ終了",
+    "probability": "確率"
   }
   

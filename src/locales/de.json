@@ -11,6 +11,21 @@
     "clearCache": "Cache löschen",
     "language": "Sprache",
     "appInfo": "App-Info",
-    "clientVersion": "Client-Version"
+    "clientVersion": "Client-Version",
+
+    "unknownStatus": "Unbekannt",
+    "missionDetails": "Missionsdetails",
+    "orbit": "Orbit",
+    "type": "Typ",
+    "weatherConcerns": "Wetterbedenken",
+    "rocketDetails": "Raketenetails",
+    "family": "Familie",
+    "variant": "Variante",
+    "launchInfo": "Startinformationen",
+    "launchInfoDetails": "Detaillierte Startzeit und Zeitfenster.",
+    "launchPad": "Startplattform",
+    "windowStart": "Startfenster Anfang",
+    "windowEnd": "Startfenster Ende",
+    "probability": "Wahrscheinlichkeit"
   }
   
