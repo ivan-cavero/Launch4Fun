@@ -13,7 +13,7 @@ const DrawerContent = () => {
   const menuItems = [
     {
       path: '/home',
-      label: 'Home',
+      label: i18n.t('homeLabel'),
       iconName: 'home',
       iconFamily: 'Octicons',
       notificationsCount: 2
