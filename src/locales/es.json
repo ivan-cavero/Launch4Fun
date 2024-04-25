@@ -1,4 +1,5 @@
 {
+  "homeLabel": "Inicio",
   "settingsLabel": "Ajustes",
   "upcomingTabLabel": "Próximos",
   "previousTabLabel": "Anteriores",
@@ -8,6 +9,7 @@
   "cache": "Caché",
   "clearingCacheDescription": "Limpiar caché eliminará favoritos, cargas rápidas y eventos del calendario.",
   "clearCache": "Limpiar Caché",
+  "language": "Idioma",
   "appInfo": "Info de la App",
   "clientVersion": "Versión del Cliente"
 }

@@ -1,4 +1,5 @@
 {
+  "homeLabel": "Home",
   "settingsLabel": "Settings",
   "upcomingTabLabel": "Upcoming",
   "previousTabLabel": "Previous",
@@ -8,6 +9,7 @@
   "cache": "Cache",
   "clearingCacheDescription": "Clearing cache will remove favorites, quick loads, and calendar events.",
   "clearCache": "Clear Cache",
+  "language": "Language",
   "appInfo": "App Info",
   "clientVersion": "Client Version"
 }
