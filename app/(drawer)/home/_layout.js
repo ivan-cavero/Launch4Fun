@@ -2,19 +2,21 @@ import useTheme from '@/styles/useTheme'
 import { Entypo } from '@expo/vector-icons';
 import { Tabs } from 'expo-router'
 import React from 'react'
+import i18nManager from '@/locales';
 
 export default function HomeLayout() {
   const appTheme = useTheme()
+  const i18n = i18nManager.getInstance()
 
   const tabs = [
     {
       name: 'upcoming',
-      title: 'Upcoming',
+      title: i18n.t('upcomingTabLabel'),
       icon: 'rocket'
     },
     {
       name: 'previous',
-      title: 'Previous',
+      title: i18n.t('previousTabLabel'),
       icon: 'back-in-time'
     }
   ]

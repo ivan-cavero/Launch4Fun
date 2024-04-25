@@ -1,0 +1,14 @@
+{
+  "settingsLabel": "Settings",
+  "upcomingTabLabel": "Upcoming",
+  "previousTabLabel": "Previous",
+  "footerTitle": "Developed by Ivan Cavero ❤️",
+  "inCountDown": "in",
+  "agoCountDown": "ago",
+  "cache": "Cache",
+  "clearingCacheDescription": "Clearing cache will remove favorites, quick loads, and calendar events.",
+  "clearCache": "Clear Cache",
+  "appInfo": "App Info",
+  "clientVersion": "Client Version"
+}
+  

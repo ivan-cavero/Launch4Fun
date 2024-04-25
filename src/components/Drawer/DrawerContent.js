@@ -3,9 +3,12 @@ import { useCallback } from 'react'
 
 import DrawerItem from './DrawerItem'
 
+import i18nManager from '@/locales';
+
 const DrawerContent = () => {
   const currentPath = usePathname()
   const router = useRouter()
+  const i18n = i18nManager.getInstance()
 
   const menuItems = [
     {
@@ -17,7 +20,7 @@ const DrawerContent = () => {
     },
     {
       path: '/settings',
-      label: 'Settings',
+      label: i18n.t('settingsLabel'),
       iconName: 'settings',
       iconFamily: 'Feather',
       notificationsCount: 0

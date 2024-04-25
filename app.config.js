@@ -36,7 +36,8 @@ module.exports = {
     APP_DOMAIN: process.env.APP_DOMAIN
   },
   plugins: [
-    "expo-router"
+    "expo-router",
+    "expo-localization"
   ],
   experiments: {
     tsconfigPaths: true

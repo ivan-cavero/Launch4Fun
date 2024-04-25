@@ -3,8 +3,10 @@ import Constants from 'expo-constants'
 import { osName } from 'expo-device'
 import { View, Text, TouchableOpacity, StyleSheet, ScrollView, Platform } from 'react-native'
 import useTheme from '@/styles/useTheme'
+import i18nManager from '@/locales';
 
 export default function ConfigPage() {
+  const i18n = i18nManager.getInstance()
   const appTheme = useTheme()
   const appVersion = Constants.expoConfig.version
 
@@ -21,18 +23,18 @@ export default function ConfigPage() {
     <ScrollView style={[styles.scrollContainer, { backgroundColor: appTheme.bg100 }]}>
       <View style={styles.container}>
         <View style={[styles.section, { backgroundColor: appTheme.bg200 }]}>
-          <Text style={[styles.sectionTitle, { color: appTheme.text100 }]}>Cache</Text>
+          <Text style={[styles.sectionTitle, { color: appTheme.text100 }]}>{i18n.t('cache')}</Text>
           <View style={styles.descriptionRow}>
-            <Text style={[styles.descriptionText, { color: appTheme.text200 }]}>Clearing cache will remove favorites, quick loads, and calendar events.</Text>
+            <Text style={[styles.descriptionText, { color: appTheme.text200 }]}>{i18n.t('clearingCacheDescription')}</Text>
           </View>
           <TouchableOpacity style={[styles.clearCacheButton, { backgroundColor: appTheme.accent100 }]} onPress={handleClearCache}>
-            <Text style={[styles.clearCacheButtonText, { color: appTheme.text100 }]}>Clear Cache</Text>
+            <Text style={[styles.clearCacheButtonText, { color: appTheme.text100 }]}>{i18n.t('clearCache')}</Text>
           </TouchableOpacity>
         </View>
         <View style={[styles.section, { backgroundColor: appTheme.bg200 }]}>
-          <Text style={[styles.sectionTitle, { color: appTheme.text100 }]}>App Info</Text>
+          <Text style={[styles.sectionTitle, { color: appTheme.text100 }]}>{i18n.t('appInfo')}</Text>
           <Text style={[styles.infoText, { color: appTheme.text200 }]}>OS: {osName}</Text>
-          <Text style={[styles.infoText, { color: appTheme.text200 }]}>Client Version: {appVersion}</Text>
+          <Text style={[styles.infoText, { color: appTheme.text200 }]}>{i18n.t('clientVersion')}: {appVersion}</Text>
           <Text style={[styles.infoText, { color: appTheme.text200 }]}>Feature: Alpha</Text>
         </View>
       </View>
