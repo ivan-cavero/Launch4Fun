@@ -47,6 +47,11 @@ export default function ConfigPage() {
           >
             <Picker.Item label="English" value="en-US" />
             <Picker.Item label="Español" value="es-ES" />
+            <Picker.Item label="Deutsch" value="de-DE" />
+            <Picker.Item label="Français" value="fr-FR" />
+            <Picker.Item label="日本語" value="ja-JP" />
+            <Picker.Item label="Português" value="pt-BR" />
+            <Picker.Item label="Italiano" value="it-IT" />
           </Picker>
         </View>
         <View style={[styles.section, { backgroundColor: appTheme.bg200 }]}>

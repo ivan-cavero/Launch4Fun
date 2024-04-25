@@ -1,0 +1,16 @@
+{
+    "homeLabel": "Início",
+    "settingsLabel": "Configurações",
+    "upcomingTabLabel": "Próximos",
+    "previousTabLabel": "Anteriores",
+    "footerTitle": "Desenvolvido por Ivan Cavero ❤️",
+    "inCountDown": "em",
+    "agoCountDown": "atrás",
+    "cache": "Cache",
+    "clearingCacheDescription": "Limpar cache removerá favoritos, carregamentos rápidos e eventos do calendário.",
+    "clearCache": "Limpar Cache",
+    "language": "Idioma",
+    "appInfo": "Info da App",
+    "clientVersion": "Versão do Cliente"
+  }
+  

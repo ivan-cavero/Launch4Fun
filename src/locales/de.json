@@ -1,0 +1,16 @@
+{
+    "homeLabel": "Start",
+    "settingsLabel": "Einstellungen",
+    "upcomingTabLabel": "Kommende",
+    "previousTabLabel": "Vorherige",
+    "footerTitle": "Entwickelt von Ivan Cavero ❤️",
+    "inCountDown": "in",
+    "agoCountDown": "vor",
+    "cache": "Cache",
+    "clearingCacheDescription": "Das Löschen des Caches entfernt Favoriten, Schnellladungen und Kalenderereignisse.",
+    "clearCache": "Cache löschen",
+    "language": "Sprache",
+    "appInfo": "App-Info",
+    "clientVersion": "Client-Version"
+  }
+  

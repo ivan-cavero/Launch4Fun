@@ -1,0 +1,16 @@
+{
+    "homeLabel": "ホーム",
+    "settingsLabel": "設定",
+    "upcomingTabLabel": "今後",
+    "previousTabLabel": "過去",
+    "footerTitle": "Ivan Caveroによって開発 ❤️",
+    "inCountDown": "内",
+    "agoCountDown": "前",
+    "cache": "キャッシュ",
+    "clearingCacheDescription": "キャッシュをクリアすると、お気に入り、クイックロード、カレンダーイベントが削除されます。",
+    "clearCache": "キャッシュをクリア",
+    "language": "言語",
+    "appInfo": "アプリ情報",
+    "clientVersion": "クライアントバージョン"
+  }
+  

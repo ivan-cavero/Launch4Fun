@@ -1,0 +1,16 @@
+{
+    "homeLabel": "Accueil",
+    "settingsLabel": "Paramètres",
+    "upcomingTabLabel": "À venir",
+    "previousTabLabel": "Précédents",
+    "footerTitle": "Développé par Ivan Cavero ❤️",
+    "inCountDown": "dans",
+    "agoCountDown": "il y a",
+    "cache": "Cache",
+    "clearingCacheDescription": "Effacer le cache supprimera les favoris, les chargements rapides et les événements du calendrier.",
+    "clearCache": "Effacer le Cache",
+    "language": "Langue",
+    "appInfo": "Info de l'App",
+    "clientVersion": "Version du Client"
+  }
+  
