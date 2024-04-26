@@ -1,12 +1,12 @@
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import Constants from 'expo-constants'
 import { osName } from 'expo-device'
-import { View, Text, TouchableOpacity, StyleSheet, ScrollView, Platform } from 'react-native'
+import { View, Text, TouchableOpacity, StyleSheet, ScrollView, Platform, Switch } from 'react-native'
 import useTheme from '@/styles/useTheme'
 import i18nManager from '@/locales'
 import { Picker } from '@react-native-picker/picker'
 import { useDispatch } from 'react-redux'
-import { updateLanguage } from '@/store/user'
+import { updateLanguage, updateAutoTranslate } from '@/store/user'
 import React, { useState } from 'react'
 
 export default function ConfigPage() {
@@ -15,6 +15,7 @@ export default function ConfigPage() {
   const appTheme = useTheme()
   const appVersion = Constants.expoConfig.version
   const [selectedLanguage, setSelectedLanguage] = useState(i18n.locale)
+  const [autoTranslate, setAutoTranslate] = useState(false)
 
   const handleClearCache = async () => {
     try {
@@ -22,6 +23,11 @@ export default function ConfigPage() {
     } catch (error) {
       console.error('Error in clearing cache:', error)
     }
+  }
+
+  const toggleAutoTranslate = async (value) => {
+    setAutoTranslate(value)
+    dispatch(updateAutoTranslate(value))
   }
 
   return (
@@ -56,6 +62,20 @@ export default function ConfigPage() {
             <Picker.Item label="Português" value="pt-BR" />
             <Picker.Item label="Italiano" value="it-IT" />
           </Picker>
+          {selectedLanguage !== 'en-US' && (
+            <View style={styles.switchContainer}>
+              <Text style={[styles.infoText, { color: appTheme.text200, flex: 1 }]}>Auto Translate</Text>
+              <Switch
+                value={autoTranslate}
+                onValueChange={(value) => toggleAutoTranslate(value)}
+              />
+            </View>
+          )}
+          {selectedLanguage !== 'en-US' && (
+            <Text style={[styles.disclaimerText, { color: appTheme.text200 }]}>
+              {i18n.t('autoTranslateDisclaimer')}
+            </Text>
+          )}
         </View>
         <View style={[styles.section, { backgroundColor: appTheme.bg200 }]}>
           <Text style={[styles.sectionTitle, { color: appTheme.text100 }]}>{i18n.t('appInfo')}</Text>
@@ -122,5 +142,15 @@ const styles = StyleSheet.create({
   },
   clearCacheButtonText: {
     fontSize: 18
+  },
+  switchContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
+  disclaimerText: {
+    fontSize: 12,
+    marginTop: 5,
+    fontStyle: 'italic'
   }
 })

@@ -10,6 +10,7 @@
     "clearingCacheDescription": "Das Löschen des Caches entfernt Favoriten, Schnellladungen und Kalenderereignisse.",
     "clearCache": "Cache löschen",
     "language": "Sprache",
+    "autoTranslateDisclaimer": "Automatische Übersetzung kann ungenau sein.",
     "appInfo": "App-Info",
     "clientVersion": "Client-Version",
 

@@ -12,11 +12,12 @@ const API_ENDPOINTS = {
 
 export const fetchUpcomingLaunches = async (limit = 10, offset = 0) => {
   const storedLanguage = store.getState().user.preferences.language
+  const storedAutoTranslate = store.getState().user.preferences.autoTranslate
 
   const endpoint = `${API_ENDPOINTS.upcomingLaunches}?limit=${limit}&offset=${offset}`
   const data = await api(endpoint)
 
-  if (storedLanguage !== 'en-US' && storedLanguage !== null) {
+  if (storedLanguage !== 'en-US' && storedLanguage !== null && storedAutoTranslate) {
     const textsToTranslate = []
 
     for (const launch of data.results) {
