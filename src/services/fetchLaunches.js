@@ -1,11 +1,9 @@
 import Constants from 'expo-constants'
 import { api } from './api'
-import i18nManager from '@/locales'
 import translateText from '@/utils/translate'
+import store from '@/store'
 
 const { API_URL } = Constants.expoConfig.extra
-
-const locale = i18nManager.getLocale()
 
 const API_ENDPOINTS = {
   upcomingLaunches: `${API_URL}/launch/upcoming/`,
@@ -13,10 +11,12 @@ const API_ENDPOINTS = {
 }
 
 export const fetchUpcomingLaunches = async (limit = 10, offset = 0) => {
+  const storedLanguage = store.getState().user.preferences.language
+
   const endpoint = `${API_ENDPOINTS.upcomingLaunches}?limit=${limit}&offset=${offset}`
   const data = await api(endpoint)
 
-  if (locale !== 'en-US') {
+  if (storedLanguage !== 'en-US' && storedLanguage !== null) {
     const textsToTranslate = []
 
     for (const launch of data.results) {
@@ -28,7 +28,7 @@ export const fetchUpcomingLaunches = async (limit = 10, offset = 0) => {
       }
     }
 
-    const translatedTexts = await translateText(textsToTranslate)
+    const translatedTexts = await translateText(textsToTranslate, storedLanguage)
 
     for (let i = 0; i < data.results.length; i++) {
       const launch = data.results[i];

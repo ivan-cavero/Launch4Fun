@@ -1,4 +1,3 @@
-import { getLocales } from 'expo-localization'
 import { I18n } from 'i18n-js'
 
 import en from '@/locales/en.json'
@@ -11,7 +10,6 @@ import it from '@/locales/it.json'
 
 class I18nManager {
   constructor() {
-    const deviceLanguage = getLocales()[0].languageTag
     this.i18nInstance = new I18n({
       'es-ES': es,
       'en-US': en,
@@ -21,7 +19,6 @@ class I18nManager {
       'pt-BR': pt,
       'it-IT': it
     })
-    this.i18nInstance.locale = deviceLanguage
   }
 
   getInstance() {

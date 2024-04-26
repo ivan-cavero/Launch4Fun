@@ -5,9 +5,12 @@ import { View, Text, TouchableOpacity, StyleSheet, ScrollView, Platform } from '
 import useTheme from '@/styles/useTheme'
 import i18nManager from '@/locales'
 import { Picker } from '@react-native-picker/picker'
+import { useDispatch } from 'react-redux'
+import { updateLanguage } from '@/store/user'
 import React, { useState } from 'react'
 
 export default function ConfigPage() {
+  const dispatch = useDispatch()
   const i18n = i18nManager.getInstance()
   const appTheme = useTheme()
   const appVersion = Constants.expoConfig.version
@@ -16,7 +19,6 @@ export default function ConfigPage() {
   const handleClearCache = async () => {
     try {
       await AsyncStorage.clear()
-      dispatch(clearAllCalendarEvents())
     } catch (error) {
       console.error('Error in clearing cache:', error)
     }
@@ -41,6 +43,7 @@ export default function ConfigPage() {
             onValueChange={(itemValue) => {
               setSelectedLanguage(itemValue)
               i18nManager.setLocale(itemValue)
+              dispatch(updateLanguage(itemValue))
             }}
             style={{ color: appTheme.text200 }}
             dropdownIconColor={appTheme.text200}
