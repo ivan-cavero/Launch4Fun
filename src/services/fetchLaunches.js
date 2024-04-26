@@ -26,6 +26,10 @@ export const fetchUpcomingLaunches = async (limit = 10, offset = 0) => {
       if (launch.mission?.orbit?.name) {
         textsToTranslate.push(launch.mission.orbit.name)
       }
+
+      if (launch.mission?.type) {
+        textsToTranslate.push(launch.mission.type)
+      }
     }
 
     const translatedTexts = await translateText(textsToTranslate, storedLanguage)
@@ -37,6 +41,9 @@ export const fetchUpcomingLaunches = async (limit = 10, offset = 0) => {
       }
       if (launch.mission?.orbit?.name) {
         launch.mission.orbit.name = translatedTexts[i + 1]
+      }
+      if (launch.mission?.type) {
+        launch.mission.type = translatedTexts[i + 2]
       }
     }
   }
