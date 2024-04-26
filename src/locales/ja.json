@@ -13,6 +13,7 @@
     "appInfo": "アプリ情報",
     "clientVersion": "クライアントバージョン",
 
+    "statusLabel": "ステータス",
     "unknownStatus": "不明",
     "missionDetails": "ミッション詳細",
     "orbit": "軌道",

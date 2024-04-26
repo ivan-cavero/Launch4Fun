@@ -13,6 +13,7 @@
     "appInfo": "Info App",
     "clientVersion": "Versione Cliente",
 
+    "statusLabel": "Stato",
     "unknownStatus": "Sconosciuto",
     "missionDetails": "Dettagli missione",
     "orbit": "Orbita",

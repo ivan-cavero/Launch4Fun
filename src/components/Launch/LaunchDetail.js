@@ -38,7 +38,7 @@ const LaunchDetail = ({ launch }) => {
         <Text style={[styles.launchTitle, { color: appTheme.text100 }]} numberOfLines={1} ellipsizeMode='tail'>
           {launch.name}
         </Text>
-        <Text style={[styles.status, { color: appTheme.text200 }]}>Status: {launch.status?.name || i18n.t('unknownStatus')}</Text>
+        <Text style={[styles.status, { color: appTheme.text200 }]}>{i18n.t('statusLabel')}: {launch.status?.name || i18n.t('unknownStatus')}</Text>
 
         <View style={styles.sectionsContainer}>
           {renderSection(i18n.t('missionDetails'), launch.mission?.description, [
