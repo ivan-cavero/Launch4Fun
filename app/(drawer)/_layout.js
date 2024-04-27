@@ -6,12 +6,14 @@ import React from 'react'
 import { StyleSheet, View } from 'react-native'
 import { GestureHandlerRootView } from 'react-native-gesture-handler'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
+import i18nManager from '@/locales';
 
 export default function Layout() {
   const insets = useSafeAreaInsets()
   const DrawerContentMemo = React.memo(DrawerContent)
   const DrawerFooterMemo = React.memo(DrawerFooter)
   const appTheme = useTheme()
+  const i18n = i18nManager.getInstance()
 
   const CustomDrawerContent = (props) => {
     return (
@@ -35,14 +37,14 @@ export default function Layout() {
           name="home"
           options={{
             drawerLabel: 'Home',
-            title: 'Launch4Fun',
+            title: 'Launch4Fun'
           }}
         />
         <Drawer.Screen
           name="settings/index"
           options={{
             drawerLabel: 'Settings',
-            title: 'Settings',
+            title: i18n.t('settingsLabel')
           }}
         />
       </Drawer>

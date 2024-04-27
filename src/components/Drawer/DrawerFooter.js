@@ -1,11 +1,13 @@
 import React from 'react'
 import { StyleSheet, Text, View } from 'react-native'
+import i18nManager from '@/locales'
 
 const DrawerFooter = () => {
+  const i18n = i18nManager.getInstance()
   return (
     <View style={styles.footerContainer}>
       <View style={styles.separator} />
-      <Text style={styles.developedByText}>Developed by Ivan Cavero ❤️</Text>
+      <Text style={styles.developedByText}>{i18n.t('footerTitle')}</Text>
     </View>
   )
 }

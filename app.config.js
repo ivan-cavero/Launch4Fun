@@ -2,7 +2,7 @@ module.exports = {
   name: process.env.APP_NAME,
   slug: 'Launch4Fun',
   scheme: 'Launch4Fun',
-  version: '0.0.0',
+  version: '1.0.0',
   orientation: 'portrait',
   icon: process.env.ICON_PATH,
   userInterfaceStyle: 'automatic',
@@ -36,7 +36,8 @@ module.exports = {
     APP_DOMAIN: process.env.APP_DOMAIN
   },
   plugins: [
-    "expo-router"
+    "expo-router",
+    "expo-localization"
   ],
   experiments: {
     tsconfigPaths: true

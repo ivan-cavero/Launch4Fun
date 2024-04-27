@@ -1,9 +1,13 @@
 import { differenceInSeconds, isPast } from 'date-fns'
 import { toZonedTime } from 'date-fns-tz'
 import { useEffect, useState } from 'react'
+import { useSelector } from 'react-redux'
+import i18nManager from '@/locales'
 
 export const useCountdown = (utcDate) => {
+  const i18n = i18nManager.getInstance()
   const [countdown, setCountdown] = useState('')
+  const storedLanguage =  useSelector(state => state.user.preferences.language)
 
   const formatTime = (totalSeconds) => {
     const days = Math.floor(totalSeconds / (3600 * 24))
@@ -38,7 +42,11 @@ export const useCountdown = (utcDate) => {
       const totalSeconds = Math.abs(differenceInSeconds(new Date(), zonedDate))
       const past = isPast(zonedDate)
 
-      setCountdown(`${past ? '' : 'in'} ${formatTime(totalSeconds)} ${past ? 'ago' : ''}`)
+      if (storedLanguage === 'en-US') {
+        setCountdown(`${past ? '' : i18n.t('inCountDown')} ${formatTime(totalSeconds)} ${past ? i18n.t('agoCountDown') : ''}`)
+      } else {
+        setCountdown(`${past ? '' : i18n.t('inCountDown')}${past ? i18n.t('agoCountDown') : ''} ${formatTime(totalSeconds)}`)
+      }
     }
 
     updateCountdown()
@@ -51,7 +59,7 @@ export const useCountdown = (utcDate) => {
     }
 
     return () => clearInterval(interval)
-  }, [countdown, formatTime, utcDate])
+  }, [countdown, formatTime, utcDate, i18n.t, storedLanguage])
 
   return countdown
 }
