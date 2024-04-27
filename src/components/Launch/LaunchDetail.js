@@ -2,6 +2,7 @@ import React from 'react'
 import { View, Text, Image, StyleSheet, ScrollView, Dimensions } from 'react-native'
 import useTheme from '@/styles/useTheme'
 import i18nManager from '@/locales'
+import { formatDateToLocal } from '@/utils/dateUtils'
 
 const { width } = Dimensions.get('window')
 const isLargeScreen = width >= 768
@@ -27,7 +28,7 @@ const LaunchDetail = ({ launch }) => {
     <View style={[styles.section, { backgroundColor: appTheme.bg200 }]} key={title}>
       <Text style={[styles.sectionTitle, { color: appTheme.text100 }]}>{title}</Text>
       <Text style={[styles.sectionDescription, { color: appTheme.text200 }]}>{description}</Text>
-      {data.map(item => renderDetailItem(item.label, item.content))}
+      {data.map(item => item.content !== null ? renderDetailItem(item.label, item.content) : null)}
     </View>
   )
 
@@ -42,7 +43,7 @@ const LaunchDetail = ({ launch }) => {
 
         <View style={styles.sectionsContainer}>
           {renderSection(i18n.t('missionDetails'), launch.mission?.description, [
-            { label: i18n.t('orbit'), content: launch.mission?.orbit?.name },
+            { label: i18n.t('orbit'), content: `(${launch.mission?.orbit?.abbrev}) ${launch.mission?.orbit?.name}` },
             { label: i18n.t('type'), content: launch.mission?.type },
             { label: i18n.t('weatherConcerns'), content: launch.weather_concerns }
           ])}
@@ -52,9 +53,9 @@ const LaunchDetail = ({ launch }) => {
           ])}
           {renderSection(i18n.t('launchInfo'), i18n.t('launchInfoDetails'), [
             { label: i18n.t('launchPad'), content: launch.pad?.name },
-            { label: i18n.t('windowStart'), content: launch.window_start },
-            { label: i18n.t('windowEnd'), content: launch.window_end },
-            { label: i18n.t('probability'), content: `${launch.probability}%` }
+            { label: i18n.t('windowStart'), content: formatDateToLocal(launch.window_start) },
+            { label: i18n.t('windowEnd'), content: formatDateToLocal(launch.window_end) },
+            { label: i18n.t('probability'), content: launch.probability ? `${launch.probability}%` : null }
           ])}
         </View>
       </View>
