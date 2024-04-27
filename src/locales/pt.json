@@ -10,6 +10,7 @@
     "clearingCacheDescription": "Limpar cache removerá favoritos, carregamentos rápidos e eventos do calendário.",
     "clearCache": "Limpar Cache",
     "language": "Idioma",
+    "autoTranslate": "Tradução automática",
     "autoTranslateDisclaimer": "A tradução automática pode não ser precisa.",
     "appInfo": "Info da App",
     "clientVersion": "Versão do Cliente",
@@ -29,5 +30,5 @@
     "windowStart": "Início da janela",
     "windowEnd": "Fim da janela",
     "probability": "Probabilidade"
-  }
+}
   

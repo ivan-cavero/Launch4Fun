@@ -10,6 +10,7 @@
   "clearingCacheDescription": "Clearing cache will remove favorites, quick loads, and calendar events.",
   "clearCache": "Clear Cache",
   "language": "Language",
+  "autoTranslate": "Auto Translate",
   "autoTranslateDisclaimer": "Automatic translation may not be accurate.",
   "appInfo": "App Info",
   "clientVersion": "Client Version",

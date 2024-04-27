@@ -5,7 +5,7 @@ import { View, Text, TouchableOpacity, StyleSheet, ScrollView, Platform, Switch 
 import useTheme from '@/styles/useTheme'
 import i18nManager from '@/locales'
 import { Picker } from '@react-native-picker/picker'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { updateLanguage, updateAutoTranslate } from '@/store/user'
 import React, { useState } from 'react'
 
@@ -15,7 +15,7 @@ export default function ConfigPage() {
   const appTheme = useTheme()
   const appVersion = Constants.expoConfig.version
   const [selectedLanguage, setSelectedLanguage] = useState(i18n.locale)
-  const [autoTranslate, setAutoTranslate] = useState(false)
+  const [autoTranslate, setAutoTranslate] = useState(useSelector((state) => state.user.preferences.autoTranslate || false))
 
   const handleClearCache = async () => {
     try {
@@ -64,7 +64,7 @@ export default function ConfigPage() {
           </Picker>
           {selectedLanguage !== 'en-US' && (
             <View style={styles.switchContainer}>
-              <Text style={[styles.infoText, { color: appTheme.text200, flex: 1 }]}>Auto Translate</Text>
+              <Text style={[styles.infoText, { color: appTheme.text200, flex: 1 }]}>{i18n.t('autoTranslate')}</Text>
               <Switch
                 value={autoTranslate}
                 onValueChange={(value) => toggleAutoTranslate(value)}

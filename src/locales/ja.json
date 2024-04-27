@@ -10,6 +10,7 @@
     "clearingCacheDescription": "キャッシュをクリアすると、お気に入り、クイックロード、カレンダーイベントが削除されます。",
     "clearCache": "キャッシュをクリア",
     "language": "言語",
+    "autoTranslate": "自動翻訳",
     "autoTranslateDisclaimer": "自動翻訳は正確でない場合があります。",
     "appInfo": "アプリ情報",
     "clientVersion": "クライアントバージョン",
