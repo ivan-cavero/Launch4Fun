@@ -15,7 +15,9 @@ export const fetchUpcomingLaunches = async (limit = 10, offset = 0) => {
   const storedAutoTranslate = store.getState().user.preferences.autoTranslate
 
   const endpoint = `${API_ENDPOINTS.upcomingLaunches}?limit=${limit}&offset=${offset}`
-  const data = await api(endpoint)
+  let data = await api(endpoint)
+
+  console.log(storedLanguage, storedAutoTranslate);
 
   if (storedLanguage !== 'en-US' && storedLanguage !== null && storedAutoTranslate) {
     const textsToTranslate = []
@@ -27,27 +29,50 @@ export const fetchUpcomingLaunches = async (limit = 10, offset = 0) => {
       if (launch.mission?.orbit?.name) {
         textsToTranslate.push(launch.mission.orbit.name)
       }
-
       if (launch.mission?.type) {
         textsToTranslate.push(launch.mission.type)
       }
     }
 
-    const translatedTexts = await translateText(textsToTranslate, storedLanguage)
+    const translationStartTime = new Date()
 
-    for (let i = 0; i < data.results.length; i++) {
-      const launch = data.results[i];
+    const translationResults = await translateText(textsToTranslate, storedLanguage)
+
+    const translationEndTime = new Date()
+    const translationTime = translationEndTime - translationStartTime
+
+    let translationIndex = 0
+    for (const launch of data.results) {
       if (launch.mission?.description) {
-        launch.mission.description = translatedTexts[i]
+        launch.mission.description = translationResults[translationIndex++]
       }
       if (launch.mission?.orbit?.name) {
-        launch.mission.orbit.name = translatedTexts[i + 1]
+        launch.mission.orbit.name = translationResults[translationIndex++]
       }
       if (launch.mission?.type) {
-        launch.mission.type = translatedTexts[i + 2]
+        launch.mission.type = translationResults[translationIndex++]
       }
     }
+
+    // Add translation status to the data object
+    const translationStatus = {
+      translated: true,
+      fromLanguage: 'en-US',
+      toLanguage: storedLanguage,
+      translationTime: translationTime / 1000,
+    }
+    data.translationStatus = translationStatus
+  } else {
+    // If auto-translate is disabled or the language is English, set translationStatus accordingly
+    data.translationStatus = {
+      translated: false,
+      fromLanguage: null,
+      toLanguage: null,
+      translationTime: null,
+    }
   }
+
+  console.log(data.translationStatus)
 
   return data
 }
