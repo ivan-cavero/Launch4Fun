@@ -17,7 +17,7 @@
         "FAV_ICON": "./assets/dev/favicon.png",
         "API_URL": "https://lldev.thespacedevs.com/2.2.0"
       },
-      "bun": "1.1.4",
+      "bun": "1.1.5",
       "channel": "dev"
     },
     "preview": {
@@ -35,7 +35,7 @@
         "FAV_ICON": "./assets/dev/favicon.png",
         "API_URL": "https://lldev.thespacedevs.com/2.2.0"
       },
-      "bun": "1.1.4",
+      "bun": "1.1.5",
       "channel": "preview"
     },
     "production": {
@@ -50,7 +50,7 @@
         "FAV_ICON": "./assets/prod/favicon.png",
         "API_URL": "https://ll.thespacedevs.com/2.2.0"
       },
-      "bun": "1.1.4",
+      "bun": "1.1.5",
       "channel": "prod"
     }
   },
