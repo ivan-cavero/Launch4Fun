@@ -8,6 +8,7 @@ import { Picker } from '@react-native-picker/picker'
 import { useDispatch, useSelector } from 'react-redux'
 import { updateLanguage, updateAutoTranslate } from '@/store/user'
 import React, { useState } from 'react'
+import { checkTranslateApi } from '@/utils/translate'
 
 export default function ConfigPage() {
   const dispatch = useDispatch()
@@ -76,6 +77,18 @@ export default function ConfigPage() {
               {i18n.t('autoTranslateDisclaimer')}
             </Text>
           )}
+        </View>
+        <View style={[styles.section, { backgroundColor: appTheme.bg200 }]}>
+          <Text style={[styles.sectionTitle, { color: appTheme.text100 }]}>Status</Text>
+          <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+            <Text style={[styles.infoText, { color: appTheme.text200 }]}>Translate API:</Text>
+            <View style={{ marginLeft: 10, marginTop: 10 }}>
+              {checkTranslateApi() 
+                ? <View style={{ backgroundColor: 'green', width: 15, height: 15, borderRadius: 7.5, shadowColor: '#000', shadowOffset: { width: 0, height: 1 }, shadowOpacity: 0.22, shadowRadius: 2.22 }} /> 
+                : <View style={{ backgroundColor: 'red', width: 15, height: 15, borderRadius: 7.5, shadowColor: '#000', shadowOffset: { width: 0, height: 1 }, shadowOpacity: 0.22, shadowRadius: 2.22 }} />
+              }
+            </View>
+          </View>
         </View>
         <View style={[styles.section, { backgroundColor: appTheme.bg200 }]}>
           <Text style={[styles.sectionTitle, { color: appTheme.text100 }]}>{i18n.t('appInfo')}</Text>
