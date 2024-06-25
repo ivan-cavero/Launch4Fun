@@ -22,21 +22,25 @@ export default function LaunchListItem({ launch }) {
   }
 
   return (
-    <Pressable onPress={handlePress}>
-      <View style={[styles.itemContainer, { backgroundColor: appTheme.bg200 }]}>
-        <View style={styles.infoContainer}>
-          <Text style={[styles.itemName, { color: appTheme.text100 }]} numberOfLines={1}>
+    <Pressable onPress={handlePress} accessibilityLabel={`Launch item ${launch.name}`} accessibilityRole="button">
+      <View style={[styles.itemContainer, { backgroundColor: appTheme.bg200 }]} accessibilityLabel={`Launch item container for ${launch.name}`}>
+        <View style={styles.infoContainer} accessibilityLabel={`Launch info for ${launch.name}`}>
+          <Text style={[styles.itemName, { color: appTheme.text100 }]} numberOfLines={1} accessibilityLabel={`Launch name ${launch.name}`}>
             {launch.name}
           </Text>
-          <View style={styles.dateAndCountdown}>
-            <Text style={[styles.itemNet, { color: appTheme.primary100 }]}>{formattedDate}</Text>
-            <View style={[styles.launchStatus, { backgroundColor: statusBackgroundColor }]}>
+          <View style={styles.dateAndCountdown} accessibilityLabel="Launch date and status">
+            <Text style={[styles.itemNet, { color: appTheme.primary100 }]} accessibilityLabel={`Launch date ${formattedDate}`}>
+              {formattedDate}
+            </Text>
+            <View style={[styles.launchStatus, { backgroundColor: statusBackgroundColor }]} accessibilityLabel={`Launch status ${statusText}`}>
               <Text style={styles.launchStatusText}>{statusText}</Text>
             </View>
           </View>
-          <Text style={[styles.countdown, { color: appTheme.text200 }]}>{countdown}</Text>
+          <Text style={[styles.countdown, { color: appTheme.text200 }]} accessibilityLabel={`Countdown ${countdown}`}>
+            {countdown}
+          </Text>
         </View>
-        <Image source={{ uri: launch.image }} style={styles.itemImage} />
+        <Image source={{ uri: launch.image }} style={styles.itemImage} accessibilityLabel={`Launch image for ${launch.name}`} />
       </View>
     </Pressable>
   )
