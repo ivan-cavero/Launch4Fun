@@ -32,18 +32,22 @@ export default function ConfigPage() {
   }
 
   return (
-    <ScrollView style={[styles.scrollContainer, { backgroundColor: appTheme.bg100 }]}>
-      <View style={styles.container}>
-        <View style={[styles.section, { backgroundColor: appTheme.bg200 }]}>
+    <ScrollView style={[styles.scrollContainer, { backgroundColor: appTheme.bg100 }]} accessibilityLabel="Configuration page scroll view">
+      <View style={styles.container} accessibilityLabel="Configuration page container">
+        <View style={[styles.section, { backgroundColor: appTheme.bg200 }]} accessibilityLabel="Clear cache section">
           <Text style={[styles.sectionTitle, { color: appTheme.text100 }]}>{i18n.t('cache')}</Text>
           <View style={styles.descriptionRow}>
             <Text style={[styles.descriptionText, { color: appTheme.text200 }]}>{i18n.t('clearingCacheDescription')}</Text>
           </View>
-          <TouchableOpacity style={[styles.clearCacheButton, { backgroundColor: appTheme.accent100 }]} onPress={handleClearCache}>
+          <TouchableOpacity 
+            style={[styles.clearCacheButton, { backgroundColor: appTheme.accent100 }]} 
+            onPress={handleClearCache}
+            accessibilityLabel="Clear cache button"
+          >
             <Text style={[styles.clearCacheButtonText, { color: appTheme.text100 }]}>{i18n.t('clearCache')}</Text>
           </TouchableOpacity>
         </View>
-        <View style={[styles.section, { backgroundColor: appTheme.bg200 }]}>
+        <View style={[styles.section, { backgroundColor: appTheme.bg200 }]} accessibilityLabel="Language selection section">
           <Text style={[styles.sectionTitle, { color: appTheme.text100 }]}>{i18n.t('language')}</Text>
           <Picker
             selectedValue={selectedLanguage}
@@ -54,6 +58,7 @@ export default function ConfigPage() {
             }}
             style={{ color: appTheme.text200 }}
             dropdownIconColor={appTheme.text200}
+            accessibilityLabel="Language picker"
           >
             <Picker.Item label="English" value="en-US" />
             <Picker.Item label="Español" value="es-ES" />
@@ -64,7 +69,7 @@ export default function ConfigPage() {
             <Picker.Item label="Italiano" value="it-IT" />
           </Picker>
           {selectedLanguage !== 'en-US' && (
-            <View style={styles.switchContainer}>
+            <View style={styles.switchContainer} accessibilityLabel="Auto-translate switch">
               <Text style={[styles.infoText, { color: appTheme.text200, flex: 1 }]}>{i18n.t('autoTranslate')}</Text>
               <Switch
                 value={autoTranslate}
@@ -73,24 +78,24 @@ export default function ConfigPage() {
             </View>
           )}
           {selectedLanguage !== 'en-US' && (
-            <Text style={[styles.disclaimerText, { color: appTheme.text200 }]}>
+            <Text style={[styles.disclaimerText, { color: appTheme.text200 }]} accessibilityLabel="Auto-translate disclaimer">
               {i18n.t('autoTranslateDisclaimer')}
             </Text>
           )}
         </View>
-        <View style={[styles.section, { backgroundColor: appTheme.bg200 }]}>
+        <View style={[styles.section, { backgroundColor: appTheme.bg200 }]} accessibilityLabel="Status section">
           <Text style={[styles.sectionTitle, { color: appTheme.text100 }]}>Status</Text>
           <View style={{ flexDirection: 'row', alignItems: 'center' }}>
             <Text style={[styles.infoText, { color: appTheme.text200 }]}>Translate API:</Text>
             <View style={{ marginLeft: 10, marginTop: 10 }}>
               {checkTranslateApi() 
-                ? <View style={{ backgroundColor: 'green', width: 15, height: 15, borderRadius: 7.5, shadowColor: '#000', shadowOffset: { width: 0, height: 1 }, shadowOpacity: 0.22, shadowRadius: 2.22 }} /> 
-                : <View style={{ backgroundColor: 'red', width: 15, height: 15, borderRadius: 7.5, shadowColor: '#000', shadowOffset: { width: 0, height: 1 }, shadowOpacity: 0.22, shadowRadius: 2.22 }} />
+                ? <View style={{ backgroundColor: 'green', width: 15, height: 15, borderRadius: 7.5, shadowColor: '#000', shadowOffset: { width: 0, height: 1 }, shadowOpacity: 0.22, shadowRadius: 2.22 }} accessibilityLabel="Translate API status: online"/> 
+                : <View style={{ backgroundColor: 'red', width: 15, height: 15, borderRadius: 7.5, shadowColor: '#000', shadowOffset: { width: 0, height: 1 }, shadowOpacity: 0.22, shadowRadius: 2.22 }} accessibilityLabel="Translate API status: offline" />
               }
             </View>
           </View>
         </View>
-        <View style={[styles.section, { backgroundColor: appTheme.bg200 }]}>
+        <View style={[styles.section, { backgroundColor: appTheme.bg200 }]} accessibilityLabel="App info section">
           <Text style={[styles.sectionTitle, { color: appTheme.text100 }]}>{i18n.t('appInfo')}</Text>
           <Text style={[styles.infoText, { color: appTheme.text200 }]}>OS: {osName}</Text>
           <Text style={[styles.infoText, { color: appTheme.text200 }]}>{i18n.t('clientVersion')}: {appVersion}</Text>
