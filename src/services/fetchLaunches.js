@@ -17,8 +17,6 @@ export const fetchUpcomingLaunches = async (limit = 10, offset = 0) => {
   const endpoint = `${API_ENDPOINTS.upcomingLaunches}?limit=${limit}&offset=${offset}`
   let data = await api(endpoint)
 
-  console.log(storedLanguage, storedAutoTranslate);
-
   if (storedLanguage !== 'en-US' && storedLanguage !== null && storedAutoTranslate) {
     const textsToTranslate = []
 
@@ -59,20 +57,15 @@ export const fetchUpcomingLaunches = async (limit = 10, offset = 0) => {
       translated: true,
       fromLanguage: 'en-US',
       toLanguage: storedLanguage,
-      translationTime: translationTime / 1000,
+      translationTime: translationTime / 1000
     }
     data.translationStatus = translationStatus
   } else {
     // If auto-translate is disabled or the language is English, set translationStatus accordingly
     data.translationStatus = {
-      translated: false,
-      fromLanguage: null,
-      toLanguage: null,
-      translationTime: null,
+      translated: false
     }
   }
-
-  console.log(data.translationStatus)
 
   return data
 }
