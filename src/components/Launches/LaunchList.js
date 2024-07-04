@@ -23,22 +23,37 @@ export default function LaunchList({ type }) {
     }, [refetch])
     
     if (isError) {
-        return <Text>Error: {error.message}</Text>
+        return <Text accessibilityLabel="Error message">Error: {error.message}</Text>
     }
     
     return (
         <ScrollView
             refreshControl={
-                <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+                <RefreshControl refreshing={refreshing} onRefresh={onRefresh} accessibilityLabel="Pull to refresh" />
             }
         >
-            <View style={{ paddingLeft: 10, paddingRight: 10, paddingTop: 5, paddingBottom: 5, backgroundColor: appTheme.bg100 }}>
+            <View
+                style={{ paddingLeft: 10, paddingRight: 10, paddingTop: 5, paddingBottom: 5, backgroundColor: appTheme.bg100 }}
+                accessibilityLabel="Launch list container"
+            >
                 {
                     isPending
-                        ? Array.from({ length: 10 }, (_, i) => <SkeletonLoading key={i} blockCount={3} imageWidth={60} blockHeight={15} />)
-                        : data.results.map(launch => (
-                            <LaunchListItem key={launch.id} launch={launch} />
-                        ))
+                    ? Array.from({ length: 10 }, (_, i) => (
+                        <SkeletonLoading 
+                            key={i} 
+                            blockCount={3} 
+                            imageWidth={60} 
+                            blockHeight={15} 
+                            accessibilityLabel={`Loading placeholder ${i + 1}`} 
+                        />
+                    ))
+                    : data.results.map(launch => (
+                        <LaunchListItem 
+                            key={launch.id} 
+                            launch={launch} 
+                            accessibilityLabel={`Launch item ${launch.name}`} 
+                        />
+                    ))
                 }
             </View>
         </ScrollView>

@@ -35,13 +35,22 @@ export default function SkeletonLoading({ blockCount = 3, imageWidth = 120, bloc
   const backgroundColor = appTheme.mode === 'light' ? '#f5f5f5' : '#1b1b1b'
 
   const blocks = Array.from({ length: blockCount }, (_, index) => (
-    <AnimatedView key={index} style={[styles.skeletonBlock, { backgroundColor: gradientColor, marginBottom: 5, height: blockHeight }]} />
+    <AnimatedView 
+      key={index} 
+      style={[styles.skeletonBlock, { backgroundColor: gradientColor, marginBottom: 5, height: blockHeight }]} 
+      accessibilityLabel={`Loading placeholder block ${index + 1}`}
+    />
   ))
 
   return (
     <View style={[styles.skeletonContainer, { backgroundColor: backgroundColor }]}>
-      <View style={styles.skeletonInfo}>{blocks}</View>
-      <AnimatedView style={[styles.skeletonImage, { backgroundColor: gradientColor, width: imageWidth }]} />
+      <View style={styles.skeletonInfo} accessibilityLabel="Loading placeholder information">
+        {blocks}
+      </View>
+      <AnimatedView 
+        style={[styles.skeletonImage, { backgroundColor: gradientColor, width: imageWidth }]} 
+        accessibilityLabel="Loading placeholder image"
+      />
     </View>
   )
 }
