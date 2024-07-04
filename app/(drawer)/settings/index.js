@@ -69,13 +69,17 @@ export default function ConfigPage() {
             <Picker.Item label="Italiano" value="it-IT" />
           </Picker>
           {selectedLanguage !== 'en-US' && (
-            <View style={styles.switchContainer} accessibilityLabel="Auto-translate switch">
+            <TouchableOpacity
+              style={[styles.switchContainer, { paddingVertical: 10 }]}
+              onPress={() => toggleAutoTranslate(!autoTranslate)}
+              accessibilityLabel="Auto-translate switch"
+            >
               <Text style={[styles.infoText, { color: appTheme.text200, flex: 1 }]}>{i18n.t('autoTranslate')}</Text>
               <Switch
                 value={autoTranslate}
                 onValueChange={(value) => toggleAutoTranslate(value)}
               />
-            </View>
+            </TouchableOpacity>
           )}
           {selectedLanguage !== 'en-US' && (
             <Text style={[styles.disclaimerText, { color: appTheme.text200 }]} accessibilityLabel="Auto-translate disclaimer">
@@ -165,6 +169,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
+    paddingHorizontal: 16
   },
   disclaimerText: {
     fontSize: 12,
