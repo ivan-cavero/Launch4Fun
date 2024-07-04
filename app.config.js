@@ -41,5 +41,11 @@ module.exports = {
   ],
   experiments: {
     tsconfigPaths: true
+  },
+  updates: {
+    url: "https://u.expo.dev/8c84f868-f7f4-4d64-b238-9c1d04c436da"
+  },
+  runtimeVersion: {
+    policy: "appVersion"
   }
 }

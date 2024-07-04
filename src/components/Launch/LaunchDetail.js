@@ -17,7 +17,11 @@ const LaunchDetail = ({ launch }) => {
     const isLabelLong = label.length > 24
   
     return (
-      <View style={[styles.detailItem, { flexDirection: isLabelLong ? 'column' : 'row' }]} key={label}>
+      <View 
+        style={[styles.detailItem, { flexDirection: isLabelLong ? 'column' : 'row' }]} 
+        key={label}
+        accessibilityLabel={`${label}: ${content}`}
+      >
         <Text style={[styles.detailLabel, { color: appTheme.text100 }]}>{label}:</Text>
         <Text style={[styles.detailContent, { color: appTheme.text200 }]}>{content}</Text>
       </View>
@@ -25,7 +29,11 @@ const LaunchDetail = ({ launch }) => {
   }
 
   const renderSection = (title, description, data) => (
-    <View style={[styles.section, { backgroundColor: appTheme.bg200 }]} key={title}>
+    <View 
+      style={[styles.section, { backgroundColor: appTheme.bg200 }]} 
+      key={title}
+      accessibilityLabel={`Section ${title}`}
+    >
       <Text style={[styles.sectionTitle, { color: appTheme.text100 }]}>{title}</Text>
       <Text style={[styles.sectionDescription, { color: appTheme.text200 }]}>{description}</Text>
       {data.map(item => item.content !== null ? renderDetailItem(item.label, item.content) : null)}
@@ -33,15 +41,30 @@ const LaunchDetail = ({ launch }) => {
   )
 
   return (
-    <ScrollView style={[styles.scrollContainer, { backgroundColor: appTheme.bg100 }]}>
-      <View style={styles.container}>
-        <Image style={styles.image} source={{ uri: launch.image }} resizeMode={isLargeScreen ? 'center' : 'cover'} />
-        <Text style={[styles.launchTitle, { color: appTheme.text100 }]} numberOfLines={1} ellipsizeMode='tail'>
+    <ScrollView style={[styles.scrollContainer, { backgroundColor: appTheme.bg100 }]} accessibilityLabel="Launch details scroll view">
+      <View style={styles.container} accessibilityLabel="Launch details container">
+        <Image 
+          style={styles.image} 
+          source={{ uri: launch.image }} 
+          resizeMode={isLargeScreen ? 'center' : 'cover'}
+          accessibilityLabel={`Image of launch ${launch.name}`}
+        />
+        <Text 
+          style={[styles.launchTitle, { color: appTheme.text100 }]} 
+          numberOfLines={1} 
+          ellipsizeMode='tail'
+          accessibilityLabel={`Launch title: ${launch.name}`}
+        >
           {launch.name}
         </Text>
-        <Text style={[styles.status, { color: appTheme.text200 }]}>{i18n.t('statusLabel')}: {launch.status?.name || i18n.t('unknownStatus')}</Text>
+        <Text 
+          style={[styles.status, { color: appTheme.text200 }]} 
+          accessibilityLabel={`Launch status: ${launch.status?.name || i18n.t('unknownStatus')}`}
+        >
+          {i18n.t('statusLabel')}: {launch.status?.name || i18n.t('unknownStatus')}
+        </Text>
 
-        <View style={styles.sectionsContainer}>
+        <View style={styles.sectionsContainer} accessibilityLabel="Launch details sections container">
           {renderSection(i18n.t('missionDetails'), launch.mission?.description, [
             { label: i18n.t('orbit'), content: `(${launch.mission?.orbit?.abbrev}) ${launch.mission?.orbit?.name}` },
             { label: i18n.t('type'), content: launch.mission?.type },

@@ -1,3 +1,22 @@
+const checkTranslateApi = async () => {
+    try {
+        const response = await fetch('http://144.24.206.46:5000',
+            {
+                method: 'GET'
+            })
+
+        if (response.ok) {
+            return true
+        }
+
+        return false
+
+    } catch (error) {
+        console.error('Error:', error)
+        return false
+    }
+}
+
 const translateText = async (texts, language) => {
     try {
         const response = await fetch('http://144.24.206.46:5000/translate', {
@@ -24,4 +43,5 @@ const translateText = async (texts, language) => {
     }
 }
 
+export { checkTranslateApi }
 export default translateText
