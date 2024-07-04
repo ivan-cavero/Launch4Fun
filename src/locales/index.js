@@ -19,6 +19,8 @@ class I18nManager {
       'pt-BR': pt,
       'it-IT': it
     })
+
+    this.defaultLocale = 'en-US'
   }
 
   getInstance() {
@@ -30,6 +32,10 @@ class I18nManager {
   }
 
   setLocale(locale) {
+    const availableLocales = Object.keys(this.i18nInstance.translations)
+    if (!availableLocales.includes(locale)) {
+      locale = this.defaultLocale
+    }
     this.i18nInstance.locale = locale
   }
 }
