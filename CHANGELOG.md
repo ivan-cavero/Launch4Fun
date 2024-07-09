@@ -1,5 +1,9 @@
 # Launch4Fun Changelog
 
+## Version 1.2.1
+
+- Fix launches with pass date in upcoming tab (again)
+
 ## Version 1.2.0
 
 - Fix launches with pass date in upcoming tab

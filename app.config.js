@@ -2,7 +2,7 @@ module.exports = {
   name: process.env.APP_NAME,
   slug: 'Launch4Fun',
   scheme: 'Launch4Fun',
-  version: '1.2.0',
+  version: '1.2.1',
   orientation: 'portrait',
   icon: process.env.ICON_PATH,
   userInterfaceStyle: 'automatic',
