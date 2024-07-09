@@ -9,23 +9,30 @@ import useTheme from '@/styles/useTheme'
 
 export default function RootLayout() {
     const queryClient = new QueryClient()
-    const appTheme = useTheme()
 
     return (
         <SafeAreaProvider>
             <Provider store={store}>
                 <PersistGate loading={null} persistor={persistor}>
                     <QueryClientProvider client={queryClient}>
-                        <View style={[{ backgroundColor: appTheme.bg200, flex: 1 }]}>
-                            <Stack
-                                screenOptions={{
-                                    headerShown: false
-                                }}
-                            />
-                        </View>
+                        <ThemedApp />
                     </QueryClientProvider>
                 </PersistGate>
             </Provider>
         </SafeAreaProvider>
+    )
+}
+
+const ThemedApp = () => {
+    const appTheme = useTheme()
+
+    return (
+        <View style={[{ backgroundColor: appTheme.bg200, flex: 1 }]}>
+            <Stack
+                screenOptions={{
+                    headerShown: false
+                }}
+            />
+        </View>
     )
 }

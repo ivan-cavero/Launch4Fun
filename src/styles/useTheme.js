@@ -1,7 +1,9 @@
-import { useColorScheme } from 'react-native';
+import { useColorScheme } from 'react-native'
+import { useSelector } from 'react-redux'
 
 export default function useTheme() {
-  const colorScheme = useColorScheme();
+  const colorScheme = useColorScheme()
+  const userTheme = useSelector(state => state.user.preferences.theme)
 
   const colors = {
     light: {
@@ -16,7 +18,7 @@ export default function useTheme() {
       bg200: '#F8F9FA',
       bg300: '#E9ECEF',
       mode: 'light'
-    },    
+    },
     dark: {
       primary100: '#0d6efd',
       primary200: '#6c757d',
@@ -32,7 +34,12 @@ export default function useTheme() {
     }
   }
 
-  const currentColors = colors[colorScheme] || colors.dark
+  let currentColors;
+  if (userTheme === 'auto') {
+    currentColors = colors[colorScheme] || colors.dark
+  } else {
+    currentColors = colors[userTheme] || colors.dark
+  }
 
   return currentColors
 }

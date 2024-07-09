@@ -6,7 +6,7 @@ import useTheme from '@/styles/useTheme'
 import i18nManager from '@/locales'
 import { Picker } from '@react-native-picker/picker'
 import { useDispatch, useSelector } from 'react-redux'
-import { updateLanguage, updateAutoTranslate } from '@/store/user'
+import { updateLanguage, updateAutoTranslate, updateTheme } from '@/store/user'
 import React, { useState } from 'react'
 import { checkTranslateApi } from '@/utils/translate'
 
@@ -17,6 +17,7 @@ export default function ConfigPage() {
   const appVersion = Constants.expoConfig.version
   const [selectedLanguage, setSelectedLanguage] = useState(i18n.locale)
   const [autoTranslate, setAutoTranslate] = useState(useSelector((state) => state.user.preferences.autoTranslate || false))
+  const [userTheme, setUserTheme] = useState(useSelector((state) => state.user.preferences.theme))
 
   const handleClearCache = async () => {
     try {
@@ -31,22 +32,35 @@ export default function ConfigPage() {
     dispatch(updateAutoTranslate(value))
   }
 
+  const toggleTheme = async (value) => {
+    setUserTheme(value)
+    dispatch(updateTheme(value))
+  }
+
   return (
     <ScrollView style={[styles.scrollContainer, { backgroundColor: appTheme.bg100 }]} accessibilityLabel="Configuration page scroll view">
       <View style={styles.container} accessibilityLabel="Configuration page container">
-        <View style={[styles.section, { backgroundColor: appTheme.bg200 }]} accessibilityLabel="Clear cache section">
-          <Text style={[styles.sectionTitle, { color: appTheme.text100 }]}>{i18n.t('cache')}</Text>
-          <View style={styles.descriptionRow}>
-            <Text style={[styles.descriptionText, { color: appTheme.text200 }]}>{i18n.t('clearingCacheDescription')}</Text>
-          </View>
-          <TouchableOpacity 
-            style={[styles.clearCacheButton, { backgroundColor: appTheme.accent100 }]} 
-            onPress={handleClearCache}
-            accessibilityLabel="Clear cache button"
+        
+        {/* Section for theme */}
+        <View style={[styles.section, { backgroundColor: appTheme.bg200 }]} accessibilityLabel="Theme selection section">
+          <Text style={[styles.sectionTitle, { color: appTheme.text100 }]}>{i18n.t('additionalSettings')}</Text>
+          <Text style={[styles.subTitle, { color: appTheme.text100 }]}>{i18n.t('themePicker')}</Text>
+          <Picker
+            selectedValue={userTheme}
+            onValueChange={(itemValue) => {
+              toggleTheme(itemValue)
+            }}
+            style={{ color: appTheme.text200 }}
+            dropdownIconColor={appTheme.text200}
+            accessibilityLabel="Theme picker"
           >
-            <Text style={[styles.clearCacheButtonText, { color: appTheme.text100 }]}>{i18n.t('clearCache')}</Text>
-          </TouchableOpacity>
+            <Picker.Item label="Auto" value="auto" />
+            <Picker.Item label="Light" value="light" />
+            <Picker.Item label="Dark" value="dark" />
+          </Picker>
         </View>
+
+        {/* Section for language */}
         <View style={[styles.section, { backgroundColor: appTheme.bg200 }]} accessibilityLabel="Language selection section">
           <Text style={[styles.sectionTitle, { color: appTheme.text100 }]}>{i18n.t('language')}</Text>
           <Picker
@@ -87,6 +101,8 @@ export default function ConfigPage() {
             </Text>
           )}
         </View>
+
+        {/* Section for status */}
         <View style={[styles.section, { backgroundColor: appTheme.bg200 }]} accessibilityLabel="Status section">
           <Text style={[styles.sectionTitle, { color: appTheme.text100 }]}>Status</Text>
           <View style={{ flexDirection: 'row', alignItems: 'center' }}>
@@ -99,11 +115,27 @@ export default function ConfigPage() {
             </View>
           </View>
         </View>
+
+        {/* Section for clear cache */}
+        <View style={[styles.section, { backgroundColor: appTheme.bg200 }]} accessibilityLabel="Clear cache section">
+          <Text style={[styles.sectionTitle, { color: appTheme.text100 }]}>{i18n.t('cache')}</Text>
+          <View style={styles.descriptionRow}>
+            <Text style={[styles.descriptionText, { color: appTheme.text200 }]}>{i18n.t('clearingCacheDescription')}</Text>
+          </View>
+          <TouchableOpacity 
+            style={[styles.clearCacheButton, { backgroundColor: appTheme.accent100 }]} 
+            onPress={handleClearCache}
+            accessibilityLabel="Clear cache button"
+          >
+            <Text style={[styles.clearCacheButtonText, { color: appTheme.text100 }]}>{i18n.t('clearCache')}</Text>
+          </TouchableOpacity>
+        </View>
+
+        {/* Section for app info */}
         <View style={[styles.section, { backgroundColor: appTheme.bg200 }]} accessibilityLabel="App info section">
           <Text style={[styles.sectionTitle, { color: appTheme.text100 }]}>{i18n.t('appInfo')}</Text>
           <Text style={[styles.infoText, { color: appTheme.text200 }]}>OS: {osName}</Text>
           <Text style={[styles.infoText, { color: appTheme.text200 }]}>{i18n.t('clientVersion')}: {appVersion}</Text>
-          <Text style={[styles.infoText, { color: appTheme.text200 }]}>Feature: Alpha</Text>
         </View>
       </View>
     </ScrollView>
@@ -140,6 +172,12 @@ const styles = StyleSheet.create({
     paddingBottom: 10,
     borderBottomWidth: 1,
     borderBottomColor: '#333'
+  },
+  subTitle: {
+    fontSize: 18,
+    fontWeight: '500',
+    marginTop: 10,
+    marginBottom: 5
   },
   infoText: {
     fontSize: 16,

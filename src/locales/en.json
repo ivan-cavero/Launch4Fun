@@ -9,6 +9,8 @@
   "cache": "Cache",
   "clearingCacheDescription": "Clearing cache will remove favorites, quick loads, and calendar events.",
   "clearCache": "Clear Cache",
+  "additionalSettings": "Additional Settings",
+  "themePicker": "Select theme",
   "language": "Language",
   "autoTranslate": "Auto Translate",
   "autoTranslateDisclaimer": "Automatic translation may not be accurate.",

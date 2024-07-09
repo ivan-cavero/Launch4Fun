@@ -9,6 +9,8 @@
     "cache": "Cache",
     "clearingCacheDescription": "Limpar cache removerá favoritos, carregamentos rápidos e eventos do calendário.",
     "clearCache": "Limpar Cache",
+    "additionalSettings": "Configurações adicionais",
+    "themePicker": "Selecione o tema",
     "language": "Idioma",
     "autoTranslate": "Tradução automática",
     "autoTranslateDisclaimer": "A tradução automática pode não ser precisa.",
