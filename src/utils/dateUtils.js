@@ -16,9 +16,9 @@ export const getLocalDateTimeFormat = () => {
   return 'MM/dd/yyyy HH:mm' // Default format
 }
 
-export const formatDateToLocal = (dateString) => {
+export const formatDateToLocal = (dateString, formatDate) => {
   const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone
   const localDate = toZonedTime(new Date(dateString), timeZone)
-  const formatPreference = getLocalDateTimeFormat()
+  const formatPreference = formatDate || getLocalDateTimeFormat()
   return format(localDate, formatPreference)
 }
