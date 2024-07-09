@@ -1,6 +1,7 @@
 {
   "cli": {
-    "version": ">= 7.8.2"
+    "version": ">= 7.8.2",
+    "appVersionSource": "remote"
   },
   "build": {
     "development": {
@@ -17,7 +18,7 @@
         "FAV_ICON": "./assets/dev/favicon.png",
         "API_URL": "https://lldev.thespacedevs.com/2.2.0"
       },
-      "bun": "1.1.5",
+      "bun": "1.1.17",
       "channel": "dev"
     },
     "preview": {
@@ -35,10 +36,11 @@
         "FAV_ICON": "./assets/dev/favicon.png",
         "API_URL": "https://ll.thespacedevs.com/2.2.0"
       },
-      "bun": "1.1.5",
+      "bun": "1.1.17",
       "channel": "preview"
     },
     "production": {
+      "autoIncrement": true,
       "distribution": "store",
       "env": {
         "API_URL_ANALYTICS": "http://129.151.253.77:8000/",
@@ -50,7 +52,7 @@
         "FAV_ICON": "./assets/prod/favicon.png",
         "API_URL": "https://ll.thespacedevs.com/2.2.0"
       },
-      "bun": "1.1.5",
+      "bun": "1.1.17",
       "channel": "prod"
     }
   },
