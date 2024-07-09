@@ -3,6 +3,7 @@ import { api } from './api'
 import translateText from '@/utils/translate'
 import store from '@/store'
 import { formatDateToLocal } from '@/utils/dateUtils'
+import { format, subHours } from 'date-fns';
 
 const { API_URL } = Constants.expoConfig.extra
 
@@ -15,7 +16,7 @@ export const fetchUpcomingLaunches = async (limit = 10, offset = 0) => {
   const storedLanguage = store.getState().user.preferences.language
   const storedAutoTranslate = store.getState().user.preferences.autoTranslate
 
-  const currentDate = formatDateToLocal(new Date(), 'yyyy-MM-dd HH:mm')
+  const currentDate = formatDateToLocal(subHours(new Date(), 12), 'yyyy-MM-dd HH:mm')
   const endpoint = `${API_ENDPOINTS.upcomingLaunches}?limit=${limit}&offset=${offset}&net__gte=${currentDate}`;
   let data = await api(endpoint)
 
