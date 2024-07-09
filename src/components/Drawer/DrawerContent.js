@@ -16,7 +16,7 @@ const DrawerContent = () => {
       label: i18n.t('homeLabel'),
       iconName: 'home',
       iconFamily: 'Octicons',
-      notificationsCount: 2
+      notificationsCount: 0
     },
     {
       path: '/settings',

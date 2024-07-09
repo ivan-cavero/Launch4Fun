@@ -2,6 +2,7 @@ import Constants from 'expo-constants'
 import { api } from './api'
 import translateText from '@/utils/translate'
 import store from '@/store'
+import { formatDateToLocal } from '@/utils/dateUtils'
 
 const { API_URL } = Constants.expoConfig.extra
 
@@ -14,7 +15,8 @@ export const fetchUpcomingLaunches = async (limit = 10, offset = 0) => {
   const storedLanguage = store.getState().user.preferences.language
   const storedAutoTranslate = store.getState().user.preferences.autoTranslate
 
-  const endpoint = `${API_ENDPOINTS.upcomingLaunches}?limit=${limit}&offset=${offset}`
+  const currentDate = formatDateToLocal(new Date(), 'yyyy-MM-dd HH:mm')
+  const endpoint = `${API_ENDPOINTS.upcomingLaunches}?limit=${limit}&offset=${offset}&net__gte=${currentDate}`;
   let data = await api(endpoint)
 
   if (storedLanguage !== 'en-US' && storedLanguage !== null && storedAutoTranslate) {

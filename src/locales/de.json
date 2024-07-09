@@ -9,6 +9,8 @@
     "cache": "Cache",
     "clearingCacheDescription": "Das Löschen des Caches entfernt Favoriten, Schnellladungen und Kalenderereignisse.",
     "clearCache": "Cache löschen",
+    "additionalSettings": "Zusätzliche Einstellungen",
+    "themePicker": "Wähle ein Thema",
     "language": "Sprache",
     "autoTranslate": "Automatisch übersetzen",
     "autoTranslateDisclaimer": "Automatische Übersetzung kann ungenau sein.",
