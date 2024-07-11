@@ -6,9 +6,8 @@ import useTheme from '@/styles/useTheme'
 import i18nManager from '@/locales'
 import { Picker } from '@react-native-picker/picker'
 import { useDispatch, useSelector } from 'react-redux'
-import { updateLanguage, updateAutoTranslate, updateTheme } from '@/store/user'
+import { updateLanguage, updateTheme } from '@/store/user'
 import React, { useState } from 'react'
-import { checkTranslateApi } from '@/utils/translate'
 
 export default function ConfigPage() {
   const dispatch = useDispatch()
@@ -16,7 +15,6 @@ export default function ConfigPage() {
   const appTheme = useTheme()
   const appVersion = Constants.expoConfig.version
   const [selectedLanguage, setSelectedLanguage] = useState(i18n.locale)
-  const [autoTranslate, setAutoTranslate] = useState(useSelector((state) => state.user.preferences.autoTranslate || false))
   const [userTheme, setUserTheme] = useState(useSelector((state) => state.user.preferences.theme))
 
   const handleClearCache = async () => {
@@ -25,11 +23,6 @@ export default function ConfigPage() {
     } catch (error) {
       console.error('Error in clearing cache:', error)
     }
-  }
-
-  const toggleAutoTranslate = async (value) => {
-    setAutoTranslate(value)
-    dispatch(updateAutoTranslate(value))
   }
 
   const toggleTheme = async (value) => {
@@ -82,38 +75,6 @@ export default function ConfigPage() {
             <Picker.Item label="Português" value="pt-BR" />
             <Picker.Item label="Italiano" value="it-IT" />
           </Picker>
-          {selectedLanguage !== 'en-US' && (
-            <TouchableOpacity
-              style={[styles.switchContainer, { paddingVertical: 10 }]}
-              onPress={() => toggleAutoTranslate(!autoTranslate)}
-              accessibilityLabel="Auto-translate switch"
-            >
-              <Text style={[styles.infoText, { color: appTheme.text200, flex: 1 }]}>{i18n.t('autoTranslate')}</Text>
-              <Switch
-                value={autoTranslate}
-                onValueChange={(value) => toggleAutoTranslate(value)}
-              />
-            </TouchableOpacity>
-          )}
-          {selectedLanguage !== 'en-US' && (
-            <Text style={[styles.disclaimerText, { color: appTheme.text200 }]} accessibilityLabel="Auto-translate disclaimer">
-              {i18n.t('autoTranslateDisclaimer')}
-            </Text>
-          )}
-        </View>
-
-        {/* Section for status */}
-        <View style={[styles.section, { backgroundColor: appTheme.bg200 }]} accessibilityLabel="Status section">
-          <Text style={[styles.sectionTitle, { color: appTheme.text100 }]}>Status</Text>
-          <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-            <Text style={[styles.infoText, { color: appTheme.text200 }]}>Translate API:</Text>
-            <View style={{ marginLeft: 10, marginTop: 10 }}>
-              {checkTranslateApi() 
-                ? <View style={{ backgroundColor: 'green', width: 15, height: 15, borderRadius: 7.5, shadowColor: '#000', shadowOffset: { width: 0, height: 1 }, shadowOpacity: 0.22, shadowRadius: 2.22 }} accessibilityLabel="Translate API status: online"/> 
-                : <View style={{ backgroundColor: 'red', width: 15, height: 15, borderRadius: 7.5, shadowColor: '#000', shadowOffset: { width: 0, height: 1 }, shadowOpacity: 0.22, shadowRadius: 2.22 }} accessibilityLabel="Translate API status: offline" />
-              }
-            </View>
-          </View>
         </View>
 
         {/* Section for clear cache */}
